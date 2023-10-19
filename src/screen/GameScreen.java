@@ -148,8 +148,6 @@ public class GameScreen extends Screen {
 		this.score = gameState.getScore();
 		this.coin = gameState.getCoin();
 		this.lives = gameState.getLivesRemaining();
-		//if (this.bonusLife)
-		//this.lives++;
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
 		this.hardcore = gameState.getHardCore();
