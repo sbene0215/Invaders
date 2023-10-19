@@ -9,6 +9,7 @@ import java.util.Set;
 
 import engine.*;
 import entity.*;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 
@@ -119,8 +120,7 @@ public class GameScreen extends Screen {
 
 	private boolean bomb; // testing
 	private Cooldown bombCool;
-
-	private String soundStatus = "ON";
+	private boolean keycheck = true;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -477,6 +477,9 @@ public class GameScreen extends Screen {
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
 		drawManager.drawSoundButton1(this);
+		//keycheck = !inputManager.keyPressed(KeyEvent.VK_C);
+		if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus1(this, true);
+		else drawManager.drawSoundStatus1(this, false);
 
 		if (combo !=0) {
 			drawManager.ComboCount(this, this.combo);

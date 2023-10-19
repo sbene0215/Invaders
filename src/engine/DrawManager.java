@@ -82,8 +82,6 @@ public final class DrawManager {
 
 	public int timercount = 0;
 
-	private boolean isSoundOn = true;
-
 
 	//BufferedImage img1, img2, img3, img4;
 
@@ -520,6 +518,21 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.fillOval(375,425,55,45);
 	}
+
+	public void drawSoundStatus1(GameScreen gamescreen, boolean keyboard) {
+		String statusText = keyboard ? "ON" : "OFF";
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.drawString(statusText, 378, 455);
+	}
+
+	public void drawSoundStatus2(GameScreen_2P gamescreen_2P, boolean keyboard) {
+		String statusText = keyboard ? "ON" : "OFF";
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.drawString(statusText, 385, 455);
+	}
+
+
+
 
 
 
