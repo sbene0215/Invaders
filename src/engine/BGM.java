@@ -11,6 +11,8 @@ public class BGM {
 
     static Clip enemyShipSpecialbgmCLip;
 
+
+
     private float originalVolume;
 
     File enemyShipSpecialappearbgm = new File("sound_BackGroundMusic/enemyshipspecial.wav");

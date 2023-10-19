@@ -500,6 +500,7 @@ public class GameScreen_2P extends Screen {
         drawManager.drawHorizontalLine(this, SEPARATION_LINE_HEIGHT - 1);
         drawManager.scoreEmoji(this, this.score);
         drawManager.drawLevel(this, this.level);
+        drawManager.drawSoundButton2(this);
 
         // Countdown to game start.
         if (!this.inputDelay.checkFinished()) {

@@ -3,9 +3,13 @@ package engine;
 import entity.Coin;
 import entity.Entity;
 import entity.Ship;
+import screen.GameScreen;
+import screen.GameScreen_2P;
 import screen.Screen;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,6 +61,8 @@ public final class DrawManager {
 	/** Big sized font properties. */
 	private static FontMetrics fontBigMetrics;
 
+	public static boolean soundEnabled;
+
 	private  static Font fontVeryBig;
 	public Cooldown endTimer = new Cooldown(3000);
 	public long ghostTImer;
@@ -75,6 +81,8 @@ public final class DrawManager {
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
 	public int timercount = 0;
+
+	private boolean isSoundOn = true;
 
 
 	//BufferedImage img1, img2, img3, img4;
@@ -502,6 +510,18 @@ public final class DrawManager {
 		backBufferGraphics.setColor(levelColor(level));
 		backBufferGraphics.drawString(Integer.toString(level), 150, 25);
 	}
+
+	public void drawSoundButton1(GameScreen gamescreen){
+		backBufferGraphics.setColor(Color.WHITE);
+		backBufferGraphics.fillOval(375,425,55,45);
+	}
+
+	public void drawSoundButton2(GameScreen_2P gamescreen_2P){
+		backBufferGraphics.setColor(Color.WHITE);
+		backBufferGraphics.fillOval(375,425,55,45);
+	}
+
+
 
 	/**
 	 * Draws current score on screen.

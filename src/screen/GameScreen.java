@@ -1,7 +1,9 @@
 package screen;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -118,6 +120,8 @@ public class GameScreen extends Screen {
 	private boolean bomb; // testing
 	private Cooldown bombCool;
 
+	private String soundStatus = "ON";
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 *
@@ -158,8 +162,15 @@ public class GameScreen extends Screen {
 			LASER_INTERVAL = 3000;
 			LASER_VARIANCE = 500;
 			LASER_LOAD = 1500;
+
+
+
 		}
 	}
+
+
+
+
 
 
 
@@ -465,6 +476,8 @@ public class GameScreen extends Screen {
 		drawManager.scoreEmoji(this, this.score);
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
+		drawManager.drawSoundButton1(this);
+
 		if (combo !=0) {
 			drawManager.ComboCount(this, this.combo);
 		}
@@ -473,6 +486,7 @@ public class GameScreen extends Screen {
 		drawManager.changeGhostColor(this.levelFinished, this.lives);
 		drawManager.drawGhost(this.ship, this.levelFinished, this.lives);//, System.currentTimeMillis());
 		this.ship.gameEndShipMotion(this.levelFinished, this.lives);
+
 
 		
 		// Countdown to game start.
@@ -503,6 +517,9 @@ public class GameScreen extends Screen {
 
 
 		}
+
+	private boolean soundEnabled = true;
+
 
 
 	/**
