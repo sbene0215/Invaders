@@ -477,9 +477,6 @@ public class GameScreen extends Screen {
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
 		drawManager.drawSoundButton1(this);
-		//keycheck = !inputManager.keyPressed(KeyEvent.VK_C);
-		//if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus1(this, false);
-		//else drawManager.drawSoundStatus1(this, true);
 		if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus1(this, false);
 		else drawManager.drawSoundStatus1(this, true);
 
