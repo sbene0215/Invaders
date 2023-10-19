@@ -1,15 +1,11 @@
 package screen;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import engine.*;
 import entity.*;
-import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 
@@ -120,7 +116,7 @@ public class GameScreen extends Screen {
 
 	private boolean bomb; // testing
 	private Cooldown bombCool;
-	private boolean keycheck = true;
+	private EnhanceManager enhanceManager;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -138,12 +134,14 @@ public class GameScreen extends Screen {
 	 */
 	public GameScreen(final GameState gameState,
 					  final GameSettings gameSettings,
+					  final EnhanceManager enhanceManager,
 					  final int width, final int height, final int fps) {
 		super(width, height, fps);
 
 
 		this.gameSettings = gameSettings;
 		//this.bonusLife = bonusLife;
+		this.enhanceManager = enhanceManager;
 		this.level = gameState.getLevel();
 		this.score = gameState.getScore();
 		this.coin = gameState.getCoin();
@@ -162,15 +160,8 @@ public class GameScreen extends Screen {
 			LASER_INTERVAL = 3000;
 			LASER_VARIANCE = 500;
 			LASER_LOAD = 1500;
-
-
-
 		}
 	}
-
-
-
-
 
 
 
@@ -476,10 +467,6 @@ public class GameScreen extends Screen {
 		drawManager.scoreEmoji(this, this.score);
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
-		drawManager.drawSoundButton1(this);
-		if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus1(this, false);
-		else drawManager.drawSoundStatus1(this, true);
-
 		if (combo !=0) {
 			drawManager.ComboCount(this, this.combo);
 		}
@@ -488,7 +475,6 @@ public class GameScreen extends Screen {
 		drawManager.changeGhostColor(this.levelFinished, this.lives);
 		drawManager.drawGhost(this.ship, this.levelFinished, this.lives);//, System.currentTimeMillis());
 		this.ship.gameEndShipMotion(this.levelFinished, this.lives);
-
 
 		
 		// Countdown to game start.
@@ -519,9 +505,6 @@ public class GameScreen extends Screen {
 
 
 		}
-
-	private boolean soundEnabled = true;
-
 
 
 	/**
@@ -650,12 +633,22 @@ public class GameScreen extends Screen {
 			if(checkCollision(item, this.ship) && !this.levelFinished){
 				recyclableItem.add(item);
 				this.logger.info("Get Item ");
-//				if(item.spriteType == SpriteType.Coin){
-//					Wallet 클래스를 게임스크린에 변수로 넣어서 += 1 하시면 될듯.
-//				}
-//				if(item.spriteType == SpriteType.EnhanceStone){
-//					Wallet 클래스를 게임스크린에 변수로 넣어서 += 1 하시면 될듯.
-//				}
+
+				//* settings of coins randomly got when killing monsters
+				ArrayList<Integer> coinProbability = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 2, 3, 4));
+				Random random = new Random();
+				int randomIndex = random.nextInt(coinProbability.size());
+
+				if(item.getSpriteType() == SpriteType.Coin){
+					this.coin.addCoin(coinProbability.get(randomIndex));
+
+				}
+				if(item.getSpriteType() == SpriteType.BlueEnhanceStone){
+					this.enhanceManager.setNumBlueEnhanceAreaStone(1);
+				}
+				if(item.getSpriteType() == SpriteType.PerpleEnhanceStone){
+					this.enhanceManager.setNumPerpleEnhanceAttackStone(1);
+				}
 				this.ship.checkGetItem(item);
 			}
 		}
