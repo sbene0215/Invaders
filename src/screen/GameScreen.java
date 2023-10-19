@@ -8,6 +8,8 @@ import engine.*;
 import entity.*;
 import javax.swing.*;
 
+import engine.DrawManager.SpriteType;
+
 
 
 /**
@@ -467,6 +469,9 @@ public class GameScreen extends Screen {
 		drawManager.scoreEmoji(this, this.score);
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
+		drawManager.drawSoundButton1(this);
+		if(inputManager.isKeyDown(KeyEvent.VK_C)) drawManager.drawSoundStatus1(this,false);
+		else drawManager.drawSoundStatus1(this,true);
 		if (combo !=0) {
 			drawManager.ComboCount(this, this.combo);
 		}
@@ -476,7 +481,7 @@ public class GameScreen extends Screen {
 		drawManager.drawGhost(this.ship, this.levelFinished, this.lives);//, System.currentTimeMillis());
 		this.ship.gameEndShipMotion(this.levelFinished, this.lives);
 
-		
+
 		// Countdown to game start.
 		if (!this.inputDelay.checkFinished()) {
 			int countdown = (int) ((INPUT_DELAY
@@ -638,6 +643,7 @@ public class GameScreen extends Screen {
 				ArrayList<Integer> coinProbability = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 2, 3, 4));
 				Random random = new Random();
 				int randomIndex = random.nextInt(coinProbability.size());
+
 
 				if(item.getSpriteType() == SpriteType.Coin){
 					this.coin.addCoin(coinProbability.get(randomIndex));
