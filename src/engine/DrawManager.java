@@ -522,13 +522,13 @@ public final class DrawManager {
 	public void drawSoundStatus1(GameScreen gamescreen, boolean keyboard) {
 		String statusText = keyboard ? "ON" : "OFF";
 		backBufferGraphics.setColor(Color.BLACK);
-		backBufferGraphics.drawString(statusText, 378, 455);
+		backBufferGraphics.drawString(statusText, 379, 455);
 	}
 
 	public void drawSoundStatus2(GameScreen_2P gamescreen_2P, boolean keyboard) {
 		String statusText = keyboard ? "ON" : "OFF";
 		backBufferGraphics.setColor(Color.BLACK);
-		backBufferGraphics.drawString(statusText, 385, 455);
+		backBufferGraphics.drawString(statusText, 379, 455);
 	}
 
 

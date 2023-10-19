@@ -501,6 +501,8 @@ public class GameScreen_2P extends Screen {
         drawManager.scoreEmoji(this, this.score);
         drawManager.drawLevel(this, this.level);
         drawManager.drawSoundButton2(this);
+        if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus2(this, false);
+        else drawManager.drawSoundStatus2(this, true);
 
         // Countdown to game start.
         if (!this.inputDelay.checkFinished()) {
