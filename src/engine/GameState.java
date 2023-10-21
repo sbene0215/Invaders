@@ -1,8 +1,6 @@
 package engine;
 
 import entity.Coin;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * Implements an object that stores the state of the game between levels.
@@ -12,57 +10,52 @@ import java.awt.event.KeyListener;
  */
 public class GameState {
 
-	/**
-	 * Current game level.
-	 */
+	/** Current game level. */
 	private int level;
-	/**
-	 * Current score.
-	 */
+	/** Current score. */
 	private int score;
-	/**
-	 * Current coin.
-	 */
+	/** Current coin. */
 	private Coin coin;
-	/**
-	 * Lives currently remaining.
-	 */
+	/** Lives currently remaining. */
 	private double livesRemaining;
 	private double livesRemaining_2p;
-	/**
-	 * Bullets shot until now.
-	 */
+	/** Bullets shot until now. */
 	private int bulletsShot;
-	/**
-	 * Ships destroyed until now.
-	 */
+
+	private int bulletsShot_2p;
+	/** Ships destroyed until now. */
 	private int shipsDestroyed;
-	/**
-	 * HardCore(Only One life)
-	 */
+	/** HardCore(Only One life) */
 	private boolean hardcore;
 
-	private boolean isToggle = true;
+
 
 
 	/**
 	 * Constructor.
-	 *
-	 * @param level          Current game level.
-	 * @param score          Current score.
-	 * @param livesRemaining Lives currently remaining.
-	 * @param bulletsShot    Bullets shot until now.
-	 * @param shipsDestroyed Ships destroyed until now.
-	 * @param hardcore       Hardcore mode, Only one coin.
+	 * 
+	 * @param level
+	 *            Current game level.
+	 * @param score
+	 *            Current score.
+	 * @param coin
+	 *            Current coin.
+	 * @param livesRemaining
+	 *            Lives currently remaining.
+	 * @param bulletsShot
+	 *            Bullets shot until now.
+	 * @param shipsDestroyed
+	 *            Ships destroyed until now.
+	 * @param hardcore
+	 *            Hardcore mode, Only one coin.
 	 */
 	public GameState(final int level, final int score, final Coin coin,
-					 final double livesRemaining, final int bulletsShot,
-					 final int shipsDestroyed, final boolean hardcore, final double livesRemaining_2p) {
+			final double livesRemaining, final int bulletsShot,
+			final int shipsDestroyed, final boolean hardcore) {
 		this.level = level;
 		this.score = score;
 		this.coin = coin;
 		this.livesRemaining = livesRemaining;
-		this.livesRemaining_2p = livesRemaining_2p;
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
 		this.hardcore = hardcore;
@@ -104,16 +97,10 @@ public class GameState {
 		return livesRemaining;
 	}
 
-	public final double getLivesRemaining_2p() {
-		return livesRemaining_2p;
-	}
-
 	/**
 	 * @return the bulletsShot
 	 */
-	public final int getBulletsShot() {
-		return bulletsShot;
-	}
+	public final int getBulletsShot() {return bulletsShot;}
 
 	/**
 	 * @return the shipsDestroyed
@@ -129,7 +116,6 @@ public class GameState {
 		return this.hardcore;
 	}
 
-	//public final int getBulletsCount() { return this.BulletsCount;}
 
 	/**
 	 * Set HardCore
@@ -149,9 +135,9 @@ public class GameState {
 	/**
 	 * Set LivesRecovery
 	 */
-	public final void setLivesRecovery() {
+	 public final void setLivesRecovery() {
 		this.score = getScore() + 100; // keeping score 
-		this.level = getLevel() - 1;
+		this.level = getLevel() -1; 
 		this.livesRemaining = 3;
-	}
+	 }
 }
