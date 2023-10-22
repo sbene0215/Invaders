@@ -92,6 +92,7 @@ public final class DrawManager {
 	private Coin coin;
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
+	private boolean initialSound = true;
 
 	private CountUpTimer timer;
 	public int timercount = 0;
@@ -637,7 +638,7 @@ public void drawSoundButton1(GameScreen gamescreen){
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		String text = "Remaining Bullets_2p: " + String.format("%02d", BulletsCount_2p);
-		backBufferGraphics.drawString(text, screen.getWidth() - 200, 88);
+		backBufferGraphics.drawString(text, screen.getWidth() - 200, 80);
 	}
 
 	/**
@@ -1556,8 +1557,14 @@ public void drawSoundButton1(GameScreen gamescreen){
 								+ fontBigMetrics.getHeight() / 3);
 			}
 		else if (number != 0) {
-			if (isFirst)
+			if (isFirst){
 				drawLoading(screen.getHeight() / 6, screen.getHeight() / 3, screen);
+				if (initialSound) {
+					SoundEffect soundEffect = new SoundEffect();
+					soundEffect.initialStartSound();
+					initialSound = false;
+				}
+			}
 			else {
 				drawLoadingNeon(screen, "Loading...",
 						screen.getHeight() / 2
@@ -2183,7 +2190,7 @@ if (option == 35)
 
 	public void gameOver(final Screen screen, boolean levelFinished, double lives,int bullets, CountUpTimer timer, Coin coin, String clearcoin){
 		if(levelFinished){
-			if(lives == 0 || bullets==0){
+			if(lives <= 0 || bullets<=0){
 				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
 				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 
