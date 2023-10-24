@@ -69,6 +69,7 @@ public final class DrawManager {
 	private static FontMetrics fontRegularMetrics;
 	/** Big sized font. */
 	private static Font fontBig;
+	private static Font fontBig_2p;
 	/** Big sized font properties. */
 	private static FontMetrics fontBigMetrics;
 
@@ -93,6 +94,10 @@ public final class DrawManager {
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
 	private boolean initialSound = true;
+	public boolean initialSound2 = true;
+	private boolean isAfterLoading = false;
+
+
 
 	private CountUpTimer timer;
 	public int timercount = 0;
@@ -117,10 +122,18 @@ public final class DrawManager {
 		ShipA,
 		ShipB,
 		ShipC,
+		ShipD,
+		ShipE,
+		ShipF,
+		ShipG,
 		/** Destroyed player ship. */
 		ShipADestroyed,
 		ShipBDestroyed,
 		ShipCDestroyed,
+		ShipDDestroyed,
+		ShipEDestroyed,
+		ShipFDestroyed,
+		ShipGDestroyed,
 		/** Player bullet. */
 		Bullet,
 		/** Player bulletY. */
@@ -131,38 +144,58 @@ public final class DrawManager {
 		EnemyBulletLeft,
 		/** Enemy bullet goes right diag. */
 		EnemyBulletRight,
-		/** First enemy ship - first form. */
-		EnemyShipA1,
-		/** First enemy ship - second form. */
-		EnemyShipA2,
-		/** Second enemy ship - first form. */
-		EnemyShipB1,
-		/** Second enemy ship - second form. */
-		EnemyShipB2,
-		/** Third enemy ship - first form. */
-		EnemyShipC1,
-		/** Third enemy ship - second form. */
-		EnemyShipC2,
-		/** Reinforced third enemy ship - first form. */
-		EnemyShipSC1,
-		/** Reinforced third enemy ship - second form. */
-		EnemyShipSC2,
-		/** Forth enemy ship - first form. */
-		EnemyShipD1,
-		/** Forth enemy ship - second form. */
-		EnemyShipD2,
-		/** Forth enemy ship (hit 1) - third form. */
-		EnemyShipD3,
-		/** Forth enemy ship (hit 1) - forth form. */
-		EnemyShipD4,
-		/** Forth enemy ship (hit 2) - fifth form. */
-		EnemyShipD5,
-		/** Forth enemy ship (hit 2)- sixth form. */
-		EnemyShipD6,
+		/** First enemy ship normal - first form. */
+		ESnA_1,
+		/** First enemy ship normal - second form. */
+		ESnA_2,
+		/** Second enemy ship normal - first form. */
+		ESnB_1,
+		/** Second enemy ship normal - second form. */
+		ESnB_2,
+		/** Third enemy ship normal - first form. */
+		ESnC_1,
+		/** Third enemy ship normal - second form. */
+		ESnC_2,
+		/** Enemy ship mod1 damaged - first form. */
+		ESm1_1D,
+		/** Enemy ship mod1 damaged - second form. */
+		ESm1_2D,
+		/** Enemy ship mod1 - first form. */
+		ESm1_1,
+		/** Enemy ship mod1 - second form. */
+		ESm1_2,
+		/** First enemy ship mod2 - first form. */
+		ESm2A_1,
+		/** First enemy ship mod2 - second form. */
+		ESm2A_2,
+		/** First enemy ship mod2 (hit 1) - third form. */
+		ESm2A_1D1,
+		/** First enemy ship mod2 (hit 1) - forth form. */
+		ESm2A_2D1,
+		/** First enemy ship mod2 (hit 2) - fifth form. */
+		ESm2A_1D2,
+		/** First enemy ship mod2 (hit 2)- sixth form. */
+		ESm2A_2D2,
+		/** Second enemy ship mod2 - first form. */
+		ESm2B_1,
+		/** Second enemy ship mod2 - second form. */
+		ESm2B_2,
+		/** Second enemy ship mod2 (hit 1) - third form. */
+		ESm2B_1D1,
+		/** Second enemy ship mod2 (hit 1) - forth form. */
+		ESm2B_2D1,
+		/** Second enemy ship mod2 (hit 2) - fifth form. */
+		ESm2B_1D2,
+		/** Second enemy ship mod2 (hit 2)- sixth form. */
+		ESm2B_2D2,
 		/** Bonus ship1. */
 		EnemyShipSpecial1,
 		/** Bonus ship2. */
 		EnemyShipSpecial2,
+		/** Bonus ship3. */
+		EnemyShipSpecial3,
+		/** Bonus ship4. */
+		EnemyShipSpecial4,
 		/** Boss ship - first form. */
 		BossA1,
 		/** Boss ship - second form. */
@@ -219,17 +252,25 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.ShipA, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipB, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipC, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipD, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipE, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipF, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipG, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipADestroyed, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipBDestroyed, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipCDestroyed, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipDDestroyed, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipEDestroyed, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipFDestroyed, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipGDestroyed, new boolean[13][8]);
 			spriteMap.put(SpriteType.Bullet, new boolean[3][5]);
 			spriteMap.put(SpriteType.BulletY, new boolean[5][7]);
 			spriteMap.put(SpriteType.EnemyBullet, new boolean[3][5]);
 			spriteMap.put(SpriteType.EnemyBulletLeft, new boolean[3][5]);
 			spriteMap.put(SpriteType.EnemyBulletRight, new boolean[3][5]);
 			if (Trash_enemyA == 0){
-				spriteMap.put(SpriteType.EnemyShipA1, new boolean[12][8]);
-				spriteMap.put(SpriteType.EnemyShipA2, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_1, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_2, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash1, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash2, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash3, new boolean[12][8]);
@@ -238,8 +279,8 @@ public final class DrawManager {
 			else if (Trash_enemyA == 1){
 				spriteMap.put(SpriteType.Trash1, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash2, new boolean[12][8]);
-				spriteMap.put(SpriteType.EnemyShipA1, new boolean[12][8]);
-				spriteMap.put(SpriteType.EnemyShipA2, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_1, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_2, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash3, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash4, new boolean[12][8]);
 			}
@@ -248,23 +289,33 @@ public final class DrawManager {
 				spriteMap.put(SpriteType.Trash2, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash3, new boolean[12][8]);
 				spriteMap.put(SpriteType.Trash4, new boolean[12][8]);
-				spriteMap.put(SpriteType.EnemyShipA1, new boolean[12][8]);
-				spriteMap.put(SpriteType.EnemyShipA2, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_1, new boolean[12][8]);
+				spriteMap.put(SpriteType.ESnA_2, new boolean[12][8]);
 			}
-			spriteMap.put(SpriteType.EnemyShipB1, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipB2, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipC1, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipC2, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipSC1, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipSC2, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD1, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD2, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD3, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD4, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD5, new boolean[12][8]);
-			spriteMap.put(SpriteType.EnemyShipD6, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESnB_1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESnB_2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESnC_1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESnC_2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm1_1D, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm1_2D, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm1_1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm1_2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_1D1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_2D1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_1D2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2A_2D2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_1D1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_2D1, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_1D2, new boolean[12][8]);
+			spriteMap.put(SpriteType.ESm2B_2D2, new boolean[12][8]);
 			spriteMap.put(SpriteType.EnemyShipSpecial1, new boolean[16][7]);
 			spriteMap.put(SpriteType.EnemyShipSpecial2, new boolean[16][7]);
+			spriteMap.put(SpriteType.EnemyShipSpecial3, new boolean[16][7]);
+			spriteMap.put(SpriteType.EnemyShipSpecial4, new boolean[16][7]);
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
 			spriteMap.put(SpriteType.BulletLine, new boolean[1][160]);
 			spriteMap.put(SpriteType.Explosion2, new boolean[13][7]);
@@ -287,10 +338,11 @@ public final class DrawManager {
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");
 
-			// Font loading.
+			// Font loading
 			fontSmall = fileManager.loadFont(12f);
 			fontRegular = fileManager.loadFont(14f);
 			fontBig = fileManager.loadFont(24f);
+			fontBig_2p = fileManager.loadFont(20f);
 			fontVeryBig = fileManager.loadFont(40f);
 			logger.info("Finished loading the fonts.");
 
@@ -467,6 +519,40 @@ public final class DrawManager {
 			return blinkingColor("HIGH_SCORES");
 	}
 
+	private Color scoreColor_1p(final int score) {
+		if (score < 800)
+			return new Color(238, 241, 255);
+		if (score >= 800 && score < 1600)
+			return new Color(210, 218, 255);
+		if (score >= 1600 && score < 2400)
+			return new Color(170, 196, 255);
+		if (score >= 2400 && score < 3200)
+			return new Color(142, 143, 250);
+		if (score >= 3200 && score < 4000)
+			return new Color(119, 82, 254);
+		if (score >= 4000 && score < 4800)
+			return new Color(25, 4, 130);
+		else
+			return blinkingColor("HIGH_SCORES");
+	}
+
+	private Color scoreColor_2p(final int score) {
+		if (score < 800)
+			return new Color(255, 234, 221);
+		if (score >= 800 && score < 1600)
+			return new Color(252, 174, 174);
+		if (score >= 1600 && score < 2400)
+			return new Color(255, 137, 137);
+		if (score >= 2400 && score < 3200)
+			return new Color(192, 100, 97);
+		if (score >= 3200 && score < 4000)
+			return new Color(154, 70, 70);
+		if (score >= 4000 && score < 4800)
+			return new Color(200, 60, 60);
+		else
+			return blinkingColor("HIGH_SCORES");
+	}
+
 	private Color levelColor(final int level) {
 		if (level == 1)
 			return Color.WHITE;
@@ -529,7 +615,7 @@ public final class DrawManager {
 		backBufferGraphics.setColor(levelColor(level));
 		backBufferGraphics.drawString(Integer.toString(level), 150, 28);
 	}
-public void drawSoundButton1(GameScreen gamescreen){
+	public void drawSoundButton1(GameScreen gamescreen){
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.fillOval(375,425,55,45);
 	}
@@ -567,11 +653,17 @@ public void drawSoundButton1(GameScreen gamescreen){
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 80, 28);
 	}
 
-	public void drawScore_2p(final Screen screen, final int score) {
-		backBufferGraphics.setFont(fontBig);
-		backBufferGraphics.setColor(scoreColor(score));
+	public void drawScore_2p(final Screen screen, final int score,final String player, final int x) {
+		backBufferGraphics.setFont(fontBig_2p);
+		if (player.equals("p1")) {
+			backBufferGraphics.setColor(scoreColor_1p(score));
+		} else if (player.equals("p2")) {
+			backBufferGraphics.setColor(scoreColor_2p(score));
+		} else{
+			backBufferGraphics.setColor(scoreColor(score));
+		}
 		String scoreString = String.format("%04d", score);
-		backBufferGraphics.drawString(scoreString, screen.getWidth() - 228, 28);
+		backBufferGraphics.drawString(scoreString, x, 26);
 	}
 
 	public void drawTimer(final Screen screen, final long elapsedTime) {
@@ -693,7 +785,7 @@ public void drawSoundButton1(GameScreen gamescreen){
 		double fillRatio = lives / 3.0;
 
 		// Determine the width of the filled portion of the rectangle.
-		int filledWidth = (int) (120 * fillRatio);
+		int filledWidth = (int) (90 * fillRatio);
 
 		// Create a gradient paint that transitions from green to yellow.
 		GradientPaint gradient = new GradientPaint(x, 8, Color.GREEN, x + filledWidth, 8, Color.YELLOW);
@@ -703,14 +795,14 @@ public void drawSoundButton1(GameScreen gamescreen){
 
 		// Draw the outline of the rectangle.
 		g2d.setColor(Color.WHITE);
-		g2d.drawRect(x, 8, 120, 20);
+		g2d.drawRect(x, 8, 90, 20);
 
 		// Set the paint to the gradient and fill the left portion of the rectangle.
 		g2d.setPaint(gradient);
 		g2d.fillRect(x, 8, filledWidth, 20);
 
 		// Set the new font size and type
-		Font newFont = g2d.getFont().deriveFont(Font.BOLD, 19); // Adjust the font size as needed
+		Font newFont = g2d.getFont().deriveFont(Font.BOLD, 15); // Adjust the font size as needed
 
 		// Set the new font in the Graphics2D context
 		g2d.setFont(newFont);
@@ -719,7 +811,7 @@ public void drawSoundButton1(GameScreen gamescreen){
 		g2d.setColor(Color.WHITE);
 
 		// Calculate the position to center the "lives" text.
-		int textX = x + (120 - g2d.getFontMetrics().stringWidth(live)) / 2; // Center horizontally
+		int textX = x + (90 - g2d.getFontMetrics().stringWidth(live)) / 2; // Center horizontally
 		int textY = 7 + 20 / 2 + g2d.getFontMetrics().getAscent() / 2; // Center vertically
 
 		// Draw the "lives" text in the center of the rectangle.
@@ -1101,6 +1193,79 @@ public void drawSoundButton1(GameScreen gamescreen){
 	}
 
 	/**
+	 * Draws sub menu.
+	 *
+	 * @param screen
+	 *               Screen to draw on.
+	 * @param option
+	 *               Option selected.
+	 */
+	public void drawSubMenu_2P(final Screen screen, final int option) {
+		String SelectString = "Select difficulty with W + S, confirm with SPACE.";
+		String itemStoreString = "I T E M S T O R E";
+		String ehanceString = "E N H A N C E M E N T";
+		String playString = "C O N T I N U E";
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, SelectString, screen.getHeight() / 8);
+		if (option == 6)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, itemStoreString,
+				screen.getHeight() / 3 * 2);
+		if (option == 7)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, ehanceString,
+				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		if (option == 2)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, playString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 4);
+	}
+
+	/**
+	 * Draws score menu.
+	 *
+	 * @param screen
+	 *               Screen to draw on.
+	 * @param option
+	 *               Option selected.
+	 */
+	public void drawScoreMenu(final Screen screen, final int option) {
+		String SelectString = "Select Mode with W + S, confirm with SPACE.";
+		String OnePlayScoreString = "O n e  P l a y e r";
+		String TwoPlayScoreString = "T w o  P l a y e r";
+		String MainMenuString = "M a i n  M e n u";
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, SelectString, screen.getHeight() / 8);
+		if (option == 31)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, OnePlayScoreString,
+				screen.getHeight() / 3 * 2);
+		if (option == 32)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, TwoPlayScoreString,
+				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		if (option == 1)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, MainMenuString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 4);
+
+	}
+
+	/**
 	 * Draws Recovery select menu.
 	 *
 	 * @param screen
@@ -1179,6 +1344,59 @@ public void drawSoundButton1(GameScreen gamescreen){
 
 			if(recoveryCoin.getCoin() >= 30){
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
+			} else {backBufferGraphics.setColor(Color.red);}
+
+		}
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, dorecoveryString,
+				screen.getHeight() / 3 * 2);
+		if (option == 52)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, notrecoveryString,
+				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2);
+
+
+
+	}
+
+	public void drawRecoveryConfirmPage_2P(GameState_2P gameState,final Screen screen, final int option) {
+		String paymentMessage = "Please pay 150 amount to recover:";
+		backBufferGraphics.setColor(Color.white);
+		drawCenteredRegularString(screen,paymentMessage, screen.getHeight() / 3 + fontRegularMetrics.getHeight() * 4);
+
+		GameState_2P recoveryGameState = gameState;
+		Coin recoveryCoin = recoveryGameState.getCoin();
+
+		String coinString = " C O I N : " + recoveryCoin.getCoin();
+
+		if(recoveryCoin.getCoin() >= 30){
+
+			backBufferGraphics.setColor(Color.YELLOW);
+			drawCenteredBigString(screen, coinString, (screen.getHeight() / 5) + 10);
+
+			String successMessage = "Your coin is enough";
+			backBufferGraphics.setColor(Color.PINK);
+			drawCenteredRegularString(screen, successMessage, screen.getHeight() / 3 + fontRegularMetrics.getHeight() * 6);
+		} else {
+			backBufferGraphics.setColor(Color.red);
+			drawCenteredBigString(screen, coinString, (screen.getHeight() / 5) + 10);
+
+			String successMessage = "You need more coin to continue";
+			backBufferGraphics.setColor(Color.orange);
+			drawCenteredRegularString(screen, successMessage, screen.getHeight() / 3 + fontRegularMetrics.getHeight() * 6);
+		}
+
+
+		String dorecoveryString = " Y E S ";
+		String notrecoveryString = " N O ";
+
+		if (option == 51){
+
+			if(recoveryCoin.getCoin() >= 30){
+				backBufferGraphics.setColor(blinkingColor("GREEN"));
 			} else {backBufferGraphics.setColor(Color.red);}
 
 		}
@@ -1491,7 +1709,7 @@ public void drawSoundButton1(GameScreen gamescreen){
 			drawCenteredRegularString(screen, scoreString, screen.getHeight()
 					/ 3 + fontRegularMetrics.getHeight() * (i + 1) * 2);
 			i++;
-			if (i > 5)
+			if (i >= 5)
 				break;
 		}
 	}
@@ -1569,10 +1787,17 @@ public void drawSoundButton1(GameScreen gamescreen){
 				drawLoadingNeon(screen, "Loading...",
 						screen.getHeight() / 2
 								+ fontBigMetrics.getHeight() / 3, number);
+				isAfterLoading = true;
+				initialSound2 = true;
 				timercount++;
 			}
 		} else {
 			drawGo(screen, "GO!", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
+			if (isAfterLoading && initialSound2) {
+				SoundEffect effect = new SoundEffect();
+				effect.startSound();
+				initialSound2 = false;
+			}
 			isFirst = false;
 			timercount = 0;
 		}
@@ -1734,10 +1959,10 @@ backBufferGraphics.setColor(Color.white);
 		String EnhanceString = " > E N H A N C E";
 		String skinStoreString = " > S K I N S T O R E";
 		String BuyString = "B U Y";
-		String PrizeString = "1 0 0";
-		String PrizeString1 = "2 0 0";
-		String PrizeString2 = "3 0 0";
-		String PrizeString3 = "4 0 0";
+		String PrizeString = "1 5 0";
+		String PrizeString1 = "1 5 0";
+		String PrizeString2 = "5 0";
+		String PrizeString3 = "5 0";
 		String ShieldString = "" + itemManager.getShieldCount();
 		String BombString = "" + itemManager.getBombCount();
 		String BSTString = "" + BST;
@@ -1760,8 +1985,8 @@ backBufferGraphics.setColor(Color.white);
 backBufferGraphics.setColor(Color.yellow);
 		backBufferGraphics.drawString(PrizeString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 35);
 		backBufferGraphics.drawString(PrizeString1, screen.getWidth()*5/8 + 33, screen.getHeight()/2 - 35);
-		backBufferGraphics.drawString(PrizeString2, screen.getWidth()/7 + 33 , screen.getHeight() - 115);
-		backBufferGraphics.drawString(PrizeString3, screen.getWidth()*5/8 + 33 , screen.getHeight() - 115);
+		backBufferGraphics.drawString(PrizeString2, screen.getWidth()/7 + 40 , screen.getHeight() - 115);
+		backBufferGraphics.drawString(PrizeString3, screen.getWidth()*5/8 + 40 , screen.getHeight() - 115);
 		if (option == 14)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
@@ -1798,6 +2023,71 @@ if (option == 35)
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		backBufferGraphics.drawString(BuyString, screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
 	}
+
+	public void drawItemStore_2P(final Screen screen, final int option, final int PST, final int BST, final ItemManager itemManager) {
+		String itemStoretxt = " * I T E M S T O R E * ";
+		String continueString = " > C O N T I N U E";
+		String EnhanceString = " > E N H A N C E";
+		String BuyString = "B U Y";
+		String PrizeString = "1 5 0";
+		String PrizeString1 = "1 5 0";
+		String PrizeString2 = "5 0";
+		String PrizeString3 = "5 0";
+		String ShieldString = "" + itemManager.getShieldCount();
+		String BombString = "" + itemManager.getBombCount();
+		String BSTString = "" + BST;
+		String PSTStiring = "" + PST;
+
+		int rectWidth = screen.getWidth();
+		int rectHeight = screen.getHeight() / 6;
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
+				rectWidth, rectHeight);
+		backBufferGraphics.setColor(Color.green);
+		drawCenteredBigString(screen, itemStoretxt,	screen.getHeight()/4 - 97);
+		drawHorizontalLine(screen, screen.getHeight()/14);
+		drawItemthings(screen.getWidth()/7, screen.getHeight()/6, 100, Color.GRAY,1, ShieldString);
+		drawItemthings(screen.getWidth() *5/8, screen.getHeight()/6, 100, Color.RED,2, BombString);
+		drawItemthings(screen.getWidth()/7, screen.getHeight()*4/7 - 30, 100,Color.BLUE,3, BSTString);
+		drawItemthings(screen.getWidth()*5/8, screen.getHeight()*4/7 - 30, 100, Color.magenta,4, PSTStiring);
+
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(Color.yellow);
+		backBufferGraphics.drawString(PrizeString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 35);
+		backBufferGraphics.drawString(PrizeString1, screen.getWidth()*5/8 + 33, screen.getHeight()/2 - 35);
+		backBufferGraphics.drawString(PrizeString2, screen.getWidth()/7 + 40 , screen.getHeight() - 115);
+		backBufferGraphics.drawString(PrizeString3, screen.getWidth()*5/8 + 40 , screen.getHeight() - 115);
+		if (option == 14)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(EnhanceString, screen.getWidth()/15 - 20, screen.getHeight() - 30);
+		if (option == 2)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(continueString, screen.getWidth()/3, screen.getHeight() - 30);
+		if (option == 35)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(BuyString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 15);
+		if (option == 36)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(BuyString, screen.getWidth() *5/8 + 33, screen.getHeight()/2 - 15);
+		if (option == 37)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(BuyString, screen.getWidth()/7+33, screen.getHeight() - 95);
+		if (option == 38)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		backBufferGraphics.drawString(BuyString, screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
+	}
 	
 	/**
 	 * Draws  skin store.
@@ -1808,14 +2098,17 @@ if (option == 35)
 	 *               Option selected.
 	 */
 
-	public void drawSkinStore(final Screen screen, final int option) {
+	public void drawSkinStore(final GameState gameState, final Screen screen, final int option) {
 
 		String skinStoretxt = " * S K I N S T O R E * ";
 		String continueString = " > C O N T I N U E";
 		String EnhanceString = " > E N H A N C E";
 		String itemStoreString = " > I T E M S T O R E";
-	String BuyString = "B U Y";
-		String PrizeString = "1 0 0";
+		SkinBuyManager skinBuyManager = new SkinBuyManager(gameState);
+		String BuyString = "B U Y";
+		String ApplyString = "A P P L Y";
+		String ApplyingString = "U N A P P L Y";
+		String PrizeString = "2 0 0";
 		int x1 = screen.getWidth()/7+20;
 		int x2 = screen.getWidth() *5/8+20;
 		int y1 = screen.getHeight()/6;
@@ -1857,26 +2150,65 @@ if (option == 35)
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		backBufferGraphics.drawString(itemStoreString, screen.getWidth() - 140, screen.getHeight() - 30);
-	if (option == 86)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		if (option == 86)
+				backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 15);
+				backBufferGraphics.setColor(blinkingColor("WHITE"));
+		if (skinBuyManager.isSkinOwned(Color.YELLOW)){
+			if(skinBuyManager.isSkinEquipped(Color.YELLOW)){
+				gameState.setNowSkinString(ApplyingString);
+			} 
+			else {
+				gameState.setNowSkinString(ApplyString);
+			}
+		} else {
+			gameState.setNowSkinString(BuyString);
+		}
+		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()/7 + 33 , screen.getHeight()/2 - 15);
 		if (option == 88)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth() *5/8 + 33, screen.getHeight()/2 - 15);
+		if (skinBuyManager.isSkinOwned(Color.BLUE)){
+			if(skinBuyManager.isSkinEquipped(Color.BLUE)){
+				gameState.setNowSkinString(ApplyingString);
+			} else {
+				gameState.setNowSkinString(ApplyString);
+			}
+		} else {
+			gameState.setNowSkinString(BuyString);
+		}
+		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth() *5/8 + 33, screen.getHeight()/2 - 15);
 		if (option == 87)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()/7+33, screen.getHeight() - 95);
+		if (skinBuyManager.isSkinOwned(Color.RED)){
+			if(skinBuyManager.isSkinEquipped(Color.RED)){
+				gameState.setNowSkinString(ApplyingString);
+			} 
+			else {
+				gameState.setNowSkinString(ApplyString);
+			}
+		} else {
+			gameState.setNowSkinString(BuyString);
+		}
+		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()/7+33, screen.getHeight() - 95);
 		if (option == 89)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
+		if (skinBuyManager.isSkinOwned(Color.CYAN)){
+			if(skinBuyManager.isSkinEquipped(Color.CYAN)){
+				gameState.setNowSkinString(ApplyingString);
+			} 
+			else {
+				gameState.setNowSkinString(ApplyString);
+			}
+		} else {
+			gameState.setNowSkinString(BuyString);
+		}
+		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
 		
 	}
 
@@ -1961,7 +2293,7 @@ if (option == 35)
 	 * @param option
 	 *               Option selected.
 	 * @param valEnhanceArea
-	 *               Current Value of Enhanced Area Range.
+	 *                Current Value of Enhanced Area Range.
 	 * @param valEnhanceDamage
 	 *               Current Value of Enhanced Damage.
 	 * @param lvEnhanceArea
@@ -2221,6 +2553,38 @@ if (option == 35)
 		}
 	}
 
+	public void gameOver_2p(final Screen screen, boolean levelFinished, double lives_1p, double lives_2p, int bullets_1p, int bullets_2p, CountUpTimer timer,
+							Coin coin, String clearcoin){
+		if(levelFinished){
+			if((lives_1p <= 0 && lives_2p <= 0) || (bullets_1p <= 0 && bullets_2p <= 0)){
+				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
+				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
+
+				backBufferGraphics.setFont(fontBig);
+				backBufferGraphics.setColor(Color.red);
+				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
+			}
+			else{
+				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);
+				backBufferGraphics.setFont(fontBig);
+				backBufferGraphics.setColor(Color.white);
+				backBufferGraphics.drawString("Stage Clear", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Stage Clear") / 2, screen.getHeight() / 2);
+				backBufferGraphics.drawString(getClearTime, screen.getWidth() / 2 - fontBigMetrics.stringWidth(getClearTime) / 2, screen.getHeight() / 2 + 20);
+				if ((int)(timer.getElapsedTime() / 1000) > 0 && (int)(timer.getElapsedTime() / 1000) < 30) {
+					backBufferGraphics.drawString("COIN : 20", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 20") / 2, screen.getHeight() / 2 + 40);
+				}
+				else if ((int)(timer.getElapsedTime() / 1000) >= 30 && (int)(timer.getElapsedTime() / 1000) < 40) {
+					backBufferGraphics.drawString("COIN : 15", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 15") / 2, screen.getHeight() / 2 + 40);
+				}
+				else if ((int)(timer.getElapsedTime() / 1000) >= 40 && (int)(timer.getElapsedTime() / 1000) < 50) {
+					backBufferGraphics.drawString("COIN : 10", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 10") / 2, screen.getHeight() / 2 + 40);
+				}
+				else{
+					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
+				}
+			}
+		}
+	}
 	public void changeGhostColor(boolean levelFinished, double lives){
 		if(levelFinished && lives == 0) {
 			int ghostColorValue;
@@ -2234,10 +2598,48 @@ if (option == 35)
 			//backBufferGraphics.setColor(ghostColor);
 		}
 	}
+	public void changeGhostColor_2p(boolean levelFinished, double lives_1p, double lives_2p){
+		if(levelFinished && lives_1p <= 0 && lives_2p <= 0){
+			int ghostColorValue;
+			if (225 < (255 - ((int)(System.currentTimeMillis() - ghostTImer) / 10)))
+				ghostColorValue = 225;
+			else if (0 < (255 - ((int)(System.currentTimeMillis() - ghostTImer) / 10)))
+				ghostColorValue = (255 - ((int)(System.currentTimeMillis() - ghostTImer) / 10));
+			else
+				ghostColorValue = 0;
+			ghostColor = new Color(ghostColorValue, ghostColorValue, ghostColorValue, 0);
+			//backBufferGraphics.setColor(ghostColor);
+		}
+	}
+
 	public void drawGhost(boolean levelFinished, double lives){
 		if(levelFinished && lives == 0) {
 			boolean timer = (System.currentTimeMillis() - ghostTImer) % 2 == 0;
 			System.out.println(ghostColor);
+			if(timer){
+				if(System.currentTimeMillis() - ghostTImer < 1000)
+					this.drawEntity(SpriteType.Ghost, ghostPostionX--, ghostPostionY--, 2, 2, Color.white);
+				else if (System.currentTimeMillis() - ghostTImer < 2000)
+					this.drawEntity(SpriteType.Ghost, ghostPostionX++, ghostPostionY--, 2, 2, Color.white);
+				else
+					this.drawEntity(SpriteType.Ghost, ghostPostionX--, ghostPostionY--, 2, 2, Color.white);
+			}
+			else {
+				if(System.currentTimeMillis() - ghostTImer < 1000)
+					this.drawEntity(SpriteType.Ghost, ghostPostionX, ghostPostionY, 2, 2, Color.white);
+				else if (System.currentTimeMillis() - ghostTImer < 2000)
+					this.drawEntity(SpriteType.Ghost, ghostPostionX, ghostPostionY, 2, 2, Color.white);
+				else
+					this.drawEntity(SpriteType.Ghost, ghostPostionX, ghostPostionY, 2, 2, Color.white);
+			}
+		}
+	}
+	public void drawGhost_2p(boolean levelFinished, double lives_1p, double lives_2p){
+		if(levelFinished && lives_1p <= 0 && lives_2p <=0) {
+			boolean timer = (System.currentTimeMillis() - ghostTImer) % 2 == 0;
+			System.out.println(ghostColor);
+			System.out.println(lives_1p);
+			System.out.println(lives_2p);
 			if(timer){
 				if(System.currentTimeMillis() - ghostTImer < 1000)
 					this.drawEntity(SpriteType.Ghost, ghostPostionX--, ghostPostionY--, 2, 2, Color.white);
@@ -2269,10 +2671,10 @@ if (option == 35)
 			if ( (30 <timercount && timercount<50) || (110 <timercount && timercount<130) ) y1 -=5;
 			else if (70<timercount && timercount <90) x1+=5;
 
-			this.drawEntity(SpriteType.values()[12],x1+15,y1+10,2.3,2.3, Color.white);
-			this.drawEntity(SpriteType.values()[14],x1+60,y1+10,2.4,2.4, Color.white);
-			this.drawEntity(SpriteType.values()[18],x1+100,y1+10,3,2.4, Color.white);
-			this.drawEntity(SpriteType.values()[25],x1+145,y1+13,2,2, Color.white);
+			this.drawEntity(SpriteType.ESnA_1,x1+15,y1+10,2.3,2.3, Color.white);
+			this.drawEntity(SpriteType.ESnB_1,x1+60,y1+10,2.4,2.4, Color.white);
+			this.drawEntity(SpriteType.ESm1_1,x1+100,y1+10,3,2.4, Color.white);
+			this.drawEntity(SpriteType.ESm2B_1,x1+145,y1+13,2,2, Color.white);
 		}
 
 

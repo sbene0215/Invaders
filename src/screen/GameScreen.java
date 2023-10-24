@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -154,6 +155,9 @@ public class GameScreen extends Screen {
 	private String clearCoin;
 	private GameScreen gamescreen;
 	private Color shipColor;
+	private String nowSkinString;
+	private Map<Color, Boolean> ownedSkins;
+	private Map<Color, Boolean> equippedSkins;
 
 	private int BulletsRemaining=99;
 
@@ -200,7 +204,7 @@ public class GameScreen extends Screen {
 		//this.BulletsCount = getBulletsCount();
 		this.clearCoin = getClearCoin();
 		this.shipColor = gameState.getShipColor();
-
+		this.nowSkinString = gameState.getNowSkinString();
 
 
 		this.laserActivate = (gameSettings.getDifficulty() == 1 && getGameState().getLevel() >= 4) || (gameSettings.getDifficulty() > 1);
@@ -221,7 +225,7 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation = new EnemyShipFormation(this.gameSettings, this.level);
 		enemyShipFormation.attach(this);
-		this.ship = new Ship(this.width / 2, this.height - 30, "a", this.shipColor);
+		this.ship = new Ship(this.width / 2, this.height - 30, "d", this.shipColor);
 		this.bulletLine = new BulletLine(this.width / 2 , this.height + 120);
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
@@ -549,7 +553,7 @@ public class GameScreen extends Screen {
 		if (inputManager.isKeyPressedOnce(KeyEvent.VK_1)) {
 			if (itemManager.getShieldCount() > 0 && timer.getElapsedTime() != 0 && ship.getShieldState() != true && !levelFinished)
 			{
-				logger.info("Key number 1 press");
+				logger.info("Key number 1 press");	
 				itemManager.PlusShieldCount(-1);
 				ship.setShieldState(true);
 				ship.update();
@@ -584,7 +588,9 @@ public class GameScreen extends Screen {
 				bgm.InGame_bgm_play();
 			} else {
 				bgm.InGame_bgm_stop();
+				bgm.enemyShipSpecialbgm_stop();
 				soundEffect.SoundEffect_stop();
+
 			}
 		}
 		drawManager.drawSoundStatus1(this, isSoundOn);
@@ -897,7 +903,9 @@ public class GameScreen extends Screen {
 	 */
 	public final GameState getGameState() {
 		return new GameState(this.level, this.score, this.coin, this.lives,
-				this.bulletsShot, this.shipsDestroyed, this.hardcore, this.shipColor,this.BulletsRemaining);
+							this.bulletsShot, this.shipsDestroyed, this.hardcore, 
+							this.shipColor, this.nowSkinString, this.ownedSkins, this.equippedSkins, 
+							this.BulletsRemaining);
 	}
 	public Ship getShip(){
 		return ship;
