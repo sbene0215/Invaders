@@ -151,15 +151,13 @@ public final class Core {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // 프레임 초기화
+
         frame = new Frame(WIDTH, HEIGHT);
         DrawManager.getInstance().setFrame(frame);
         int width = frame.getWidth();
         int height = frame.getHeight();
 
         outgame_bgm.OutGame_bgm_play();
-        // 사용자 이름 입력
-
 
         GameState gameState;
         GameState_2P gameState_2P;
