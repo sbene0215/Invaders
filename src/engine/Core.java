@@ -131,24 +131,18 @@ public final class Core {
      * @param args Program args, ignored.
      */
     public static void main(final String[] args) {
+        outgame_bgm = new BGM();
+
         try {
-
-            outgame_bgm = new BGM();
-
             LOGGER.setUseParentHandlers(false);
-
             fileHandler = new FileHandler("log");
             fileHandler.setFormatter(new MinimalFormatter());
-
             consoleHandler = new ConsoleHandler();
             consoleHandler.setFormatter(new MinimalFormatter());
-
             LOGGER.addHandler(fileHandler);
             LOGGER.addHandler(consoleHandler);
             LOGGER.setLevel(Level.ALL);
-
         } catch (Exception e) {
-            // TODO handle exception
             e.printStackTrace();
         }
 
@@ -158,18 +152,12 @@ public final class Core {
             e.printStackTrace();
         }
 
-        // 프레임 초기화
         frame = new Frame(WIDTH, HEIGHT);
         DrawManager.getInstance().setFrame(frame);
         int width = frame.getWidth();
         int height = frame.getHeight();
 
-        // 사용자 이름 입력
-        String userName = UserScreen.promptUserName();
-        if (userName == null || userName.trim().isEmpty()) {
-            // 사용자가 취소를 누르거나 아무것도 입력하지 않았다면 프로그램 종료
-            System.exit(0);
-        }
+        outgame_bgm.OutGame_bgm_play();
 
         GameState gameState;
         GameState_2P gameState_2P;

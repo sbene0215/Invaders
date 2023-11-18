@@ -52,10 +52,7 @@ public class UserScreen {
         UIManager.put("Button.foreground", Color.GREEN);
         UIManager.put("Button.font", titleLabel.getFont());
 
-        // "확인" 버튼의 텍스트를 "확인"으로 변경
         UIManager.put("OptionPane.okButtonText", "OK");
-
-        // "취소" 버튼의 텍스트를 "취소"로 변경
         UIManager.put("OptionPane.cancelButtonText", "Cancel");
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Enter the name of user",
