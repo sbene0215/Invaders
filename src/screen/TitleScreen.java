@@ -50,6 +50,11 @@ public class TitleScreen extends Screen {
 	 * @return Next screen code.
 	 */
 	public final int run() {
+		String userName = UserScreen.promptUserName();
+
+		if (userName == null || userName.isEmpty()) {
+			System.exit(0);
+		}
 		super.run();
 
 		return this.returnCode;
