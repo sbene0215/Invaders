@@ -482,6 +482,43 @@ public final class Core {
                     LOGGER.info("Closing high score screen.");
                     break;
                     **/
+                case 35:
+                    if (currentScreen.returnCode == 6 || currentScreen.returnCode == 35 || currentScreen.returnCode == 36 || currentScreen.returnCode == 37 || currentScreen.returnCode == 38) {
+                        currentScreen = new StoreScreen(width, height, FPS, gameState, enhanceManager, itemManager);
+                        enhanceManager = ((StoreScreen) currentScreen).getEnhanceManager();
+                        gameState = ((StoreScreen)currentScreen).getGameState();
+
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " store screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+                    if (currentScreen.returnCode == 7 || currentScreen.returnCode == 8 || currentScreen.returnCode == 9 || currentScreen.returnCode == 14) {
+                        currentScreen = new EnhanceScreen(enhanceManager, gameSettings, gameState, width, height, FPS);
+                        gameSettings = ((EnhanceScreen) currentScreen).getGameSettings();
+                        enhanceManager = ((EnhanceScreen) currentScreen).getEnhanceManager();
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " enhance screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+                    if (currentScreen.returnCode == 86 || currentScreen.returnCode == 15) {
+                        currentScreen = new SkinStoreScreen(width, height, FPS, gameState, enhanceManager);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + "skin store screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+//                    currentScreen = new StoreScreen(width, height, FPS, gameState, enhanceManager, itemManager);
+//                    enhanceManager = ((StoreScreen) currentScreen).getEnhanceManager();
+//                    gameState = ((StoreScreen)currentScreen).getGameState();
+//
+//                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+//                            + " store screen at " + FPS + " fps.");
+//                    returnCode = frame.setScreen(currentScreen);
+//                    LOGGER.info("Closing subMenu screen.");
+
+
 
                 case 4:
                     currentScreen = new SelectScreen(width, height, FPS, 0); // Difficulty Selection
