@@ -1,4 +1,5 @@
 package screen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -22,11 +23,9 @@ public class UserScreen {
         panel.setBackground(Color.BLACK);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-
         JLabel titleLabel = new JLabel("Enter the name of user");
         titleLabel.setForeground(Color.GREEN);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         try {
             Font gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/BlackOpsOne-Regular.ttf")).deriveFont(24f);
@@ -47,17 +46,20 @@ public class UserScreen {
         textField.setFont(titleLabel.getFont());
         panel.add(textField);
 
-
         UIManager.put("OptionPane.background", Color.BLACK);
         UIManager.put("Panel.background", Color.BLACK);
         UIManager.put("Button.background", Color.BLACK);
         UIManager.put("Button.foreground", Color.GREEN);
         UIManager.put("Button.font", titleLabel.getFont());
 
+        // "확인" 버튼의 텍스트를 "확인"으로 변경
+        UIManager.put("OptionPane.okButtonText", "OK");
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "ENTER THE NAME OF USER",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE); //
+        // "취소" 버튼의 텍스트를 "취소"로 변경
+        UIManager.put("OptionPane.cancelButtonText", "Cancel");
 
+        int result = JOptionPane.showConfirmDialog(null, panel, "Enter the name of user",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             return textField.getText();
