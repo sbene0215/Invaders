@@ -29,12 +29,12 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-
 import entity.Coin;
 import entity.Entity;
 import screen.GameScreen;
 import screen.GameScreen_2P;
 import screen.Screen;
+import screen.UserScreen;
 
 
 /**
@@ -2299,9 +2299,9 @@ if (option == 35)
 	 *               Screen to draw on.
 	 * @param option
 	 *               Option selected.
-	 * @param valEnhanceArea
+	 * @param numEnhanceArea
 	 *                Current Value of Enhanced Area Range.
-	 * @param valEnhanceDamage
+	 * @param numEnhanceArea
 	 *               Current Value of Enhanced Damage.
 	 * @param lvEnhanceArea
 	 *               Current Level of Enhanced Area Range.
@@ -2536,6 +2536,7 @@ if (option == 35)
 				backBufferGraphics.setFont(fontBig);
 				backBufferGraphics.setColor(Color.red);
 				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
+
 			}
 			else {
 				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);

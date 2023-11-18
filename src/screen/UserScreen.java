@@ -1,5 +1,7 @@
 package screen;
 
+import engine.SaveDataManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -59,7 +61,10 @@ public class UserScreen {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            return textField.getText();
+            //return textField.getText();
+            String userName = textField.getText();
+            SaveDataManager.saveUserNameToFile(userName);
+            return userName;
         } else {
             return null;
         }

@@ -13,6 +13,16 @@ public class Coin extends Item {
      * @param positionX Initial position of the Item in the X axis.
      * @param positionY Initial position of the Item in the Y axis.
      */
+    private int collectedCoins;
+
+    public int getCollectedCoins() {
+        return collectedCoins;
+    }
+
+    public void setCollectedCoins(int collectedCoins) {
+        this.collectedCoins = collectedCoins;
+    }
+
     public Coin(int positionX, int positionY) {
         super(positionX, positionY);
     }
