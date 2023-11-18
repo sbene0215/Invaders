@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import entity.Coin;
 import screen.*;
 
+import javax.swing.*;
+
 /**
  * Implements core game logic.
  *
@@ -120,7 +122,7 @@ public final class Core {
 
     private static int BulletsRemaining_1p;
     private static int BulletsRemaining_2p;
-
+    private int returnCode;
 
 
     /**
@@ -150,11 +152,24 @@ public final class Core {
             e.printStackTrace();
         }
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 프레임 초기화
         frame = new Frame(WIDTH, HEIGHT);
         DrawManager.getInstance().setFrame(frame);
         int width = frame.getWidth();
         int height = frame.getHeight();
-        int stage;
+
+        // 사용자 이름 입력
+        String userName = UserScreen.promptUserName();
+        if (userName == null || userName.trim().isEmpty()) {
+            // 사용자가 취소를 누르거나 아무것도 입력하지 않았다면 프로그램 종료
+            System.exit(0);
+        }
 
         GameState gameState;
         GameState_2P gameState_2P;
@@ -221,7 +236,7 @@ public final class Core {
 
                     LOGGER.info("select Level"); // Stage(Level) Selection
                     currentScreen = new StageSelectScreen(width, height, FPS, gameSettings.toArray().length, 1);
-                    stage = frame.setScreen(currentScreen);
+                    int stage = frame.setScreen(currentScreen);
                     if (stage == 0) {
                         returnCode = 2;
                         LOGGER.info("Go Difficulty Select");
