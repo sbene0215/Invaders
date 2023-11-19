@@ -5,6 +5,7 @@ public class Coin extends Item {
 
     /** Number of coin */	
     public int coin = 0;
+    private int collectedCoins = 0;
 
     /**
      * Constructor, establishes the Item's properties.
@@ -13,7 +14,6 @@ public class Coin extends Item {
      * @param positionX Initial position of the Item in the X axis.
      * @param positionY Initial position of the Item in the Y axis.
      */
-    private int collectedCoins;
 
 
     public Coin(int positionX, int positionY) {
@@ -31,5 +31,14 @@ public class Coin extends Item {
     public int getCoin() {
         return this.coin;
     }
+
+    public void addCollectedCoins(int addCoins) {
+        this.collectedCoins += addCoins;
+    }
+
+    public int getCollectedCoins() {
+        return this.collectedCoins;
+    }
+
 }
 

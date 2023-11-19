@@ -2561,7 +2561,7 @@ if (option == 35)
 					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
 				}
 
-				SaveDataManager.saveGameCoinData(collectedCoins);
+				SaveDataManager.saveGameCoinData(collectedCoins + coin.getCollectedCoins());
 
 			}
 		}
