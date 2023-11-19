@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -40,6 +41,8 @@ import entity.Ship;
  *
  */
 public class GameScreen extends Screen {
+	/** Sound status on/off. */
+	private boolean isSoundOn = true;
 
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 6000;
@@ -152,6 +155,13 @@ public class GameScreen extends Screen {
 	private String clearCoin;
 	private GameScreen gamescreen;
 	private Color shipColor;
+	private String nowSkinString;
+	private Map<Color, Boolean> ownedSkins;
+	private Map<Color, Boolean> equippedSkins;
+
+	private int BulletsRemaining=99;
+
+
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -190,9 +200,11 @@ public class GameScreen extends Screen {
 		this.pause = false;
 		this.attackDamage = gameSettings.getBaseAttackDamage();
 		this.areaDamage = gameSettings.getBaseAreaDamage();
+		this.BulletsRemaining = getGameState().getBulletsRemaining();
+		//this.BulletsCount = getBulletsCount();
 		this.clearCoin = getClearCoin();
 		this.shipColor = gameState.getShipColor();
-
+		this.nowSkinString = gameState.getNowSkinString();
 
 
 		this.laserActivate = (gameSettings.getDifficulty() == 1 && getGameState().getLevel() >= 4) || (gameSettings.getDifficulty() > 1);
@@ -213,7 +225,7 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation = new EnemyShipFormation(this.gameSettings, this.level);
 		enemyShipFormation.attach(this);
-		this.ship = new Ship(this.width / 2, this.height - 30, "a", this.shipColor);
+		this.ship = new Ship(this.width / 2, this.height - 30, "d", this.shipColor);
 		this.bulletLine = new BulletLine(this.width / 2 , this.height + 120);
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
@@ -317,6 +329,7 @@ public class GameScreen extends Screen {
 								soundEffect.playShipShootingSound();
 								this.bulletsShot++;
 								this.BulletsCount--;
+								this.BulletsRemaining--;
 							}
 						}
 						else {
@@ -324,6 +337,7 @@ public class GameScreen extends Screen {
 								soundEffect.playShipShootingSound();
 								this.bulletsShot++;
 								this.BulletsCount--;
+								this.BulletsRemaining--;
 							}
 						}
 					}
@@ -422,7 +436,7 @@ public class GameScreen extends Screen {
 			this.screenFinishedCooldown.reset();
 			timer.stop();
 		}
-		if (this.lives == 0 && !this.levelFinished) {
+		if (this.lives <= 0 && !this.levelFinished) {
 			bgm.InGame_bgm_stop();
 			this.ship.update();
 			bgm.enemyShipSpecialbgm_stop();
@@ -470,6 +484,7 @@ public class GameScreen extends Screen {
 		timer.update();
 	}
 
+
 	/**
 	 * when the stage end, eat all dropped item.
 	 */
@@ -498,7 +513,7 @@ public class GameScreen extends Screen {
 		if (this.enemyShipSpecial != null) drawManager.drawBackgroundSpecialEnemy(this, SEPARATION_LINE_HEIGHT);
 		drawManager.drawBackgroundLines(this, SEPARATION_LINE_HEIGHT);
 		drawManager.drawBackgroundPlayer(this, SEPARATION_LINE_HEIGHT, this.ship.getPositionX(), this.ship.getPositionY(), this.ship.getWidth(), this.ship.getHeight());
-
+		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
 		drawManager.drawEntity(this.bulletLine, this.ship.getPositionX() + 12,
@@ -539,7 +554,7 @@ public class GameScreen extends Screen {
 		if (inputManager.isKeyPressedOnce(KeyEvent.VK_1)) {
 			if (itemManager.getShieldCount() > 0 && timer.getElapsedTime() != 0 && ship.getShieldState() != true && !levelFinished)
 			{
-				logger.info("Key number 1 press");
+				logger.info("Key number 1 press");	
 				itemManager.PlusShieldCount(-1);
 				ship.setShieldState(true);
 				ship.update();
@@ -568,8 +583,18 @@ public class GameScreen extends Screen {
 		drawManager.BulletsCount(this, this.BulletsCount);
 		drawManager.drawLevel(this, this.level);
 		drawManager.drawSoundButton1(this);
-		if (inputManager.isKeyDown(KeyEvent.VK_C))  drawManager.drawSoundStatus1(this, false);
-		else drawManager.drawSoundStatus1(this, true);
+		if (inputManager.isKeyDown(KeyEvent.VK_C)) {
+			isSoundOn = !isSoundOn;
+			if (isSoundOn) {
+				bgm.InGame_bgm_play();
+			} else {
+				bgm.InGame_bgm_stop();
+				bgm.enemyShipSpecialbgm_stop();
+				soundEffect.SoundEffect_stop();
+
+			}
+		}
+		drawManager.drawSoundStatus1(this, isSoundOn);
 
 		drawManager.drawTimer(this, timer.getElapsedTime());
 		if(Miss==1) {
@@ -712,9 +737,9 @@ public class GameScreen extends Screen {
 				if (this.enemyShipSpecial != null
 						&& !this.enemyShipSpecial.isDestroyed()
 						&& checkCollision(bullet, this.enemyShipSpecial)) {
-					enemyShipSpecial.reduceEnemyLife(bullet.getDamage());
-					this.logger.info("Attack the enemy with " + bullet.getDamage()
-						+ " of damage.");
+					enemyShipSpecial.reduceEnemyLife(bullet.getDamage()); 
+					this.logger.info("Attack the enemy with " + bullet.getDamage() 
+						+ " of damage.");					
 					this.combo ++;
 					this.score += combo;
 					this.Miss =1;
@@ -879,7 +904,9 @@ public class GameScreen extends Screen {
 	 */
 	public final GameState getGameState() {
 		return new GameState(this.level, this.score, this.coin, this.lives,
-				this.bulletsShot, this.shipsDestroyed, this.hardcore, this.shipColor);
+							this.bulletsShot, this.shipsDestroyed, this.hardcore, 
+							this.shipColor, this.nowSkinString, this.ownedSkins, this.equippedSkins, 
+							this.BulletsRemaining);
 	}
 	public Ship getShip(){
 		return ship;
@@ -887,5 +914,5 @@ public class GameScreen extends Screen {
 	public String getClearCoin() {
 		return this.clearCoin;
 	}
-
+	
 }

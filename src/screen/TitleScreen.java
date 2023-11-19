@@ -50,6 +50,11 @@ public class TitleScreen extends Screen {
 	 * @return Next screen code.
 	 */
 	public final int run() {
+		String userName = UserScreen.promptUserName();
+
+		if (userName == null || userName.isEmpty()) {
+			System.exit(0);
+		}
 		super.run();
 
 		return this.returnCode;
@@ -92,6 +97,8 @@ public class TitleScreen extends Screen {
 		else if (this.returnCode == 4)
 			this.returnCode = 3;
 		else if (this.returnCode == 3)
+			this.returnCode = 35;
+		else if (this.returnCode == 35)
 			this.returnCode = 0;
 		else
 			this.returnCode = 2;
@@ -102,6 +109,8 @@ public class TitleScreen extends Screen {
 	 */
 	private void previousMenuItem() {
 		if (this.returnCode == 0)
+			this.returnCode = 35;
+		else if (this.returnCode == 35)
 			this.returnCode = 3;
 		else if (this.returnCode == 3)
 			this.returnCode = 4;
