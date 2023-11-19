@@ -2529,6 +2529,9 @@ if (option == 35)
 
 	public void gameOver(final Screen screen, boolean levelFinished, double lives,int bullets, CountUpTimer timer, Coin coin, String clearcoin){
 		if(levelFinished){
+
+			int collectedCoins = coin.getCoin();
+
 			if(lives <= 0 || bullets<=0){
 				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
 				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
@@ -2557,6 +2560,9 @@ if (option == 35)
 				else{
 					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
 				}
+
+				SaveDataManager.saveGameCoinData(collectedCoins);
+
 			}
 		}
 	}

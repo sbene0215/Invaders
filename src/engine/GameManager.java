@@ -24,14 +24,12 @@ public class GameManager {
     public void addNewUser(String userName) {
         userList.add(userName + "=0");
         currentUserName = userName;
-        memberRec();
     }
 
     public void updateCoins(int collectedCoins) {
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).startsWith(currentUserName)) {
                 userList.set(i, currentUserName + "=" + collectedCoins);
-                memberRec();
                 break;
             }
         }

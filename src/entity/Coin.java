@@ -15,13 +15,6 @@ public class Coin extends Item {
      */
     private int collectedCoins;
 
-    public int getCollectedCoins() {
-        return collectedCoins;
-    }
-
-    public void setCollectedCoins(int collectedCoins) {
-        this.collectedCoins = collectedCoins;
-    }
 
     public Coin(int positionX, int positionY) {
         super(positionX, positionY);
