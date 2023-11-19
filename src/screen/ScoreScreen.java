@@ -137,10 +137,11 @@ public class ScoreScreen extends Screen {
 
 		if (this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-				soundEffect.playSpaceButtonSound();
+				System.exit(0);
+				//soundEffect.playSpaceButtonSound();
 				// Return to main menu.
-				this.returnCode = 1;
-				this.isRunning = false;
+				//this.returnCode = 1;
+				//this.isRunning = false;
 				if (this.isNewRecord)
 					saveScore();
 			} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {

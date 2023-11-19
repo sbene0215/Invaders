@@ -51,7 +51,6 @@ public class UserScreen {
         UIManager.put("Button.background", Color.BLACK);
         UIManager.put("Button.foreground", Color.GREEN);
         UIManager.put("Button.font", titleLabel.getFont());
-
         UIManager.put("OptionPane.okButtonText", "OK");
         UIManager.put("OptionPane.cancelButtonText", "Cancel");
 
@@ -65,3 +64,4 @@ public class UserScreen {
         }
     }
 }
+

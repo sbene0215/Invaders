@@ -484,6 +484,7 @@ public class GameScreen extends Screen {
 		timer.update();
 	}
 
+
 	/**
 	 * when the stage end, eat all dropped item.
 	 */
