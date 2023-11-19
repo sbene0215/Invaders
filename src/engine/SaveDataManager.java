@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SaveDataManager {
-    private static final String USER_DATA_FILE = "C:\\Users\\김민서\\IdeaProjects\\Invaders\\res\\user_names.txt";
-    private static final String COIN_DATA_FILE = "C:\\Users\\김민서\\IdeaProjects\\Invaders\\res\\coin_data.txt";
+    private static final String USER_DATA_FILE = "C:\\software\\res\\user_names.txt";
+    private static final String COIN_DATA_FILE = "C:\\software\\res\\coin_data.txt";
     private static final Logger LOGGER = Logger.getLogger(SaveDataManager.class.getName());
 
     static {
