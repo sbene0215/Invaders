@@ -47,7 +47,7 @@ public class SaveDataManager {
     }
     public static void SaveUserInfo(UserInfo userInfo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE, true))) {
-            writer.write(userInfo.getId() + userInfo.getcoin() + userInfo.getHighest_score() + userInfo.getRemained_lives());
+            writer.write(userInfo.getId() + " " + userInfo.getcoin() + " " + userInfo.getRemained_lives() + " " + userInfo.getHighest_score());
             writer.newLine();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error occurred while saving the user name.", e);
@@ -107,4 +107,34 @@ public class SaveDataManager {
             e.printStackTrace();
         }
     }
+    public static void deleteLinesByKeyword(String filePath, String keyword) {
+        File inputFile = new File(filePath);
+        File tempFile = new File(filePath + "_temp");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains(keyword)) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Replace the original file with the modified file
+        if (inputFile.delete() && tempFile.renameTo(inputFile)) {
+            System.out.println("Lines containing the keyword deleted.");
+        } else {
+            System.err.println("Failed to update the file.");
+        }
+    }
+
+
+
+
 }

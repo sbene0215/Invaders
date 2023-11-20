@@ -9,7 +9,6 @@ import engine.Cooldown;
 import engine.Core;
 import engine.GameState;
 import engine.Score;
-
 import engine.SoundEffect;
 
 /**
@@ -137,16 +136,18 @@ public class ScoreScreen extends Screen {
 
 		if (this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-				System.exit(0);
 				//soundEffect.playSpaceButtonSound();
 				// Return to main menu.
 				//this.returnCode = 1;
 				//this.isRunning = false;
+				this.returnCode = 0;
+				this.isRunning = false;
 				if (this.isNewRecord)
 					saveScore();
 			} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
 				soundEffect.playSpaceButtonSound();
 				// Play again.
+
 				this.returnCode = 2;
 				this.isRunning = false;
 				if (this.isNewRecord)
@@ -215,8 +216,8 @@ public class ScoreScreen extends Screen {
 				this.shipsDestroyed, this.difficulty, (float) this.shipsDestroyed
 						/ this.bulletsShot, this.isNewRecord);
 
-		if (this.isNewRecord)
-			drawManager.drawNameInput(this, this.name, this.nameCharSelected);
+		//if (this.isNewRecord) 기존에 이름적던 칸.
+		//	drawManager.drawNameInput(this, this.name, this.nameCharSelected);
 
 		drawManager.completeDrawing(this);
 	}
