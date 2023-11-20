@@ -12,9 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import entity.Coin;
+import entity.UserInfo;
 import screen.*;
 
 import javax.swing.*;
+
+import static engine.GetUserInfo.readUserInfo;
 
 /**
  * Implements core game logic.
@@ -123,6 +126,7 @@ public final class Core {
     private static int BulletsRemaining_1p;
     private static int BulletsRemaining_2p;
     private int returnCode;
+    private static final String USER_DATA_FILE = "res/user_data.txt";
 
 
     /**
@@ -166,7 +170,6 @@ public final class Core {
         Map<Color, Boolean> equippedSkins = new HashMap<>();
         Map<Color, Boolean> ownedSkins = new HashMap<>();
 
-
         int returnCode = 1;
         do {
             Coin coin = new Coin(0, 0);
@@ -191,6 +194,10 @@ public final class Core {
                     break;
 
                 case 2:
+                    UserInfo userInfo = readUserInfo(USER_DATA_FILE, UserScreen.getUserName());
+                    coin.setCoin(userInfo.getcoin());
+                    gameState = new GameState(1, userInfo.getHighest_score(), coin, userInfo.getRemained_lives(), 0, 0,
+                            false, Color.WHITE, "B U Y", ownedSkins, equippedSkins, 99);
                     currentScreen = new SelectScreen(width, height, FPS, 0); // Difficulty Selection
                     LOGGER.info("Select Difficulty");
                     difficulty = frame.setScreen(currentScreen);
