@@ -11,6 +11,9 @@ public class UserScreen {
     private static String userName;
 
     public static String promptUserName() {
+        if (userName != null && !userName.isEmpty()) {
+            return userName;
+        }
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -85,16 +88,15 @@ public class UserScreen {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // 변수를 찾을 수 있는 로직을 작성
                 if (line.contains(variableToCheck)) {
-                    return true; // 변수를 찾았을 경우 true 반환
+                    return true;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace(); // 예외 처리: 파일 읽기 오류
+            e.printStackTrace();
         }
 
-        return false; // 파일을 다 읽었거나 예외가 발생했을 경우 false 반환
+        return false;
     }
     public static void deleteLinesByKeyword(String filePath, String keyword) {
         File inputFile = new File(filePath);
