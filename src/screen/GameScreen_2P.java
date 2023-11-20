@@ -173,7 +173,6 @@ public class GameScreen_2P extends Screen {
         timer = new CountUpTimer();
         this.BulletsRemaining_1p = gameState.getBulletsRemaining_1p();
         this.BulletsRemaining_2p = gameState.getBulletsRemaining_2p();
-
         this.laserActivate = (gameSettings.getDifficulty() == 1 && getGameState().getLevel() >= 4) || (gameSettings.getDifficulty() > 1);
         if (gameSettings.getDifficulty() > 1) {
             LASER_INTERVAL = 3000;
@@ -244,7 +243,9 @@ public class GameScreen_2P extends Screen {
         super.run();
 
         this.score_1P += LIFE_SCORE * (this.lives_1p - 1);
+        if(this.score_1P < 0){ this.score_1P = 0;}
         this.score_2P += LIFE_SCORE * (this.lives_2p - 1);
+        if(this.score_2P < 0){ this.score_2P = 0;}
         this.logger.info("Screen cleared with a score of " + this.score_1P + " " + this.score_2P);
 
         return this.returnCode;
