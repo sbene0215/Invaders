@@ -29,12 +29,12 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-
 import entity.Coin;
 import entity.Entity;
 import screen.GameScreen;
 import screen.GameScreen_2P;
 import screen.Screen;
+import screen.UserScreen;
 
 
 /**
@@ -2299,9 +2299,9 @@ if (option == 35)
 	 *               Screen to draw on.
 	 * @param option
 	 *               Option selected.
-	 * @param valEnhanceArea
+	 * @param numEnhanceArea
 	 *                Current Value of Enhanced Area Range.
-	 * @param valEnhanceDamage
+	 * @param numEnhanceArea
 	 *               Current Value of Enhanced Damage.
 	 * @param lvEnhanceArea
 	 *               Current Level of Enhanced Area Range.
@@ -2529,6 +2529,9 @@ if (option == 35)
 
 	public void gameOver(final Screen screen, boolean levelFinished, double lives,int bullets, CountUpTimer timer, Coin coin, String clearcoin){
 		if(levelFinished){
+
+			int collectedCoins = coin.getCoin();
+
 			if(lives <= 0 || bullets<=0){
 				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
 				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
@@ -2536,6 +2539,7 @@ if (option == 35)
 				backBufferGraphics.setFont(fontBig);
 				backBufferGraphics.setColor(Color.red);
 				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
+
 			}
 			else {
 				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);
@@ -2556,6 +2560,9 @@ if (option == 35)
 				else{
 					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
 				}
+
+				SaveDataManager.saveGameCoinData(collectedCoins + coin.getCollectedCoins());
+
 			}
 		}
 	}
