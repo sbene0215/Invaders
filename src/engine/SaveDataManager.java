@@ -1,5 +1,7 @@
 package engine;
 
+import entity.UserInfo;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -8,8 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SaveDataManager {
-    private static final String USER_DATA_FILE = "C:\\software\\res\\user_names.txt";
-    private static final String COIN_DATA_FILE = "C:\\software\\res\\coin_data.txt";
+    private static final String ID_DATA_FILE = "res/user_names.txt";
+    private static final String USER_DATA_FILE = "res/user_data.txt";
+    private static final String COIN_DATA_FILE = "res/coin_data.txt";
     private static final Logger LOGGER = Logger.getLogger(SaveDataManager.class.getName());
 
     static {
@@ -23,8 +26,28 @@ public class SaveDataManager {
     }
 
     public static void saveUserNameToFile(String userName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ID_DATA_FILE, true))) {
             writer.write(userName);
+            writer.newLine();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error occurred while saving the user name.", e);
+            String errorMessage = "Error occurred while saving the user name. Please try again.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public static void SaveInitialUserInfo(String Id) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE, true))) {
+            writer.write(Id + " " + 0 + " " + 3.0 + " " + 0);
+            writer.newLine();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error occurred while saving the user name.", e);
+            String errorMessage = "Error occurred while saving the user name. Please try again.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public static void SaveUserInfo(UserInfo userInfo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE, true))) {
+            writer.write(userInfo.getId() + userInfo.getcoin() + userInfo.getHighest_score() + userInfo.getRemained_lives());
             writer.newLine();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error occurred while saving the user name.", e);

@@ -6,8 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class UserScreen {
+    private static final String ID_DATA_FILE = "res/user_names.txt";
+    private static String userName;
 
     public static String promptUserName() {
         try {
@@ -61,12 +65,39 @@ public class UserScreen {
 
         if (result == JOptionPane.OK_OPTION) {
             //return textField.getText();
-            String userName = textField.getText();
-            SaveDataManager.saveUserNameToFile(userName);
+            String inputUserName = textField.getText();
+            if (isVariableInFile(ID_DATA_FILE, inputUserName)) {
+                System.out.println("Logged in.");
+            }
+            else {
+                SaveDataManager.saveUserNameToFile(inputUserName);
+                SaveDataManager.SaveInitialUserInfo(inputUserName);
+            }
+            userName = inputUserName;
             return userName;
         } else {
             return null;
         }
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static boolean isVariableInFile(String filePath, String variableToCheck) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // 변수를 찾을 수 있는 로직을 작성
+                if (line.contains(variableToCheck)) {
+                    return true; // 변수를 찾았을 경우 true 반환
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // 예외 처리: 파일 읽기 오류
+        }
+
+        return false; // 파일을 다 읽었거나 예외가 발생했을 경우 false 반환
     }
 }
 
