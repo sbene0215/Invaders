@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import engine.Cooldown;
-import engine.Core;
-import engine.GameState;
-import engine.Score;
-import engine.SoundEffect;
+import engine.*;
+import entity.UserInfo;
 
 /**
  * Implements the score screen.
@@ -214,9 +211,9 @@ public class ScoreScreen extends Screen {
 				this.isNewRecord);
 		drawManager.drawResults(this, this.score, this.livesRemaining,
 				this.shipsDestroyed, this.difficulty, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.isNewRecord);
+						/ this.bulletsShot, this.isNewRecord, UserScreen.getUserName());
 
-		//if (this.isNewRecord) 기존에 이름적던 칸.
+		//if (this.isNewRecord) // 기존에 이름적던 칸.
 		//	drawManager.drawNameInput(this, this.name, this.nameCharSelected);
 
 		drawManager.completeDrawing(this);
