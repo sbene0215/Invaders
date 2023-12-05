@@ -12,7 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import entity.Coin;
+import entity.UserInfo;
 import screen.*;
+
+import javax.swing.*;
+
+import static engine.GetUserInfo.readUserInfo;
 
 /**
  * Implements core game logic.
@@ -120,7 +125,8 @@ public final class Core {
 
     private static int BulletsRemaining_1p;
     private static int BulletsRemaining_2p;
-
+    private int returnCode;
+    private static final String USER_DATA_FILE = "res/user_data.txt";
 
 
     /**
@@ -129,24 +135,24 @@ public final class Core {
      * @param args Program args, ignored.
      */
     public static void main(final String[] args) {
+        outgame_bgm = new BGM();
+
         try {
-
-            outgame_bgm = new BGM();
-
             LOGGER.setUseParentHandlers(false);
-
             fileHandler = new FileHandler("log");
             fileHandler.setFormatter(new MinimalFormatter());
-
             consoleHandler = new ConsoleHandler();
             consoleHandler.setFormatter(new MinimalFormatter());
-
             LOGGER.addHandler(fileHandler);
             LOGGER.addHandler(consoleHandler);
             LOGGER.setLevel(Level.ALL);
-
         } catch (Exception e) {
-            // TODO handle exception
+            e.printStackTrace();
+        }
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -154,7 +160,8 @@ public final class Core {
         DrawManager.getInstance().setFrame(frame);
         int width = frame.getWidth();
         int height = frame.getHeight();
-        int stage;
+
+        outgame_bgm.OutGame_bgm_play();
 
         GameState gameState;
         GameState_2P gameState_2P;
@@ -162,7 +169,6 @@ public final class Core {
         ItemManager itemManager;
         Map<Color, Boolean> equippedSkins = new HashMap<>();
         Map<Color, Boolean> ownedSkins = new HashMap<>();
-
 
         int returnCode = 1;
         do {
@@ -188,6 +194,12 @@ public final class Core {
                     break;
 
                 case 2:
+                    UserInfo userInfo = readUserInfo(USER_DATA_FILE, UserScreen.getUserName());
+                    coin.setCoin(userInfo.getcoin());
+                    double lives = userInfo.getRemained_lives();
+                    if (lives < 1.0) lives++; // 목숨이 1개 미만이면 1개
+                    gameState = new GameState(1, userInfo.getHighest_score(), coin, lives, 0, 0,
+                            false, Color.WHITE, "B U Y", ownedSkins, equippedSkins, 99);
                     currentScreen = new SelectScreen(width, height, FPS, 0); // Difficulty Selection
                     LOGGER.info("Select Difficulty");
                     difficulty = frame.setScreen(currentScreen);
@@ -221,7 +233,7 @@ public final class Core {
 
                     LOGGER.info("select Level"); // Stage(Level) Selection
                     currentScreen = new StageSelectScreen(width, height, FPS, gameSettings.toArray().length, 1);
-                    stage = frame.setScreen(currentScreen);
+                    int stage = frame.setScreen(currentScreen);
                     if (stage == 0) {
                         returnCode = 2;
                         LOGGER.info("Go Difficulty Select");
@@ -482,6 +494,43 @@ public final class Core {
                     LOGGER.info("Closing high score screen.");
                     break;
                     **/
+                case 35:
+                    if (currentScreen.returnCode == 6 || currentScreen.returnCode == 35 || currentScreen.returnCode == 36 || currentScreen.returnCode == 37 || currentScreen.returnCode == 38) {
+                        currentScreen = new StoreScreen(width, height, FPS, gameState, enhanceManager, itemManager);
+                        enhanceManager = ((StoreScreen) currentScreen).getEnhanceManager();
+                        gameState = ((StoreScreen)currentScreen).getGameState();
+
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " store screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+                    if (currentScreen.returnCode == 7 || currentScreen.returnCode == 8 || currentScreen.returnCode == 9 || currentScreen.returnCode == 14) {
+                        currentScreen = new EnhanceScreen(enhanceManager, gameSettings, gameState, width, height, FPS);
+                        gameSettings = ((EnhanceScreen) currentScreen).getGameSettings();
+                        enhanceManager = ((EnhanceScreen) currentScreen).getEnhanceManager();
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " enhance screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+                    if (currentScreen.returnCode == 86 || currentScreen.returnCode == 15) {
+                        currentScreen = new SkinStoreScreen(width, height, FPS, gameState, enhanceManager);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + "skin store screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing subMenu screen.");
+                    }
+//                    currentScreen = new StoreScreen(width, height, FPS, gameState, enhanceManager, itemManager);
+//                    enhanceManager = ((StoreScreen) currentScreen).getEnhanceManager();
+//                    gameState = ((StoreScreen)currentScreen).getGameState();
+//
+//                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+//                            + " store screen at " + FPS + " fps.");
+//                    returnCode = frame.setScreen(currentScreen);
+//                    LOGGER.info("Closing subMenu screen.");
+
+
 
                 case 4:
                     currentScreen = new SelectScreen(width, height, FPS, 0); // Difficulty Selection
@@ -730,7 +779,13 @@ public final class Core {
             }
 
         } while (returnCode != 0);
-
+        System.out.println("....System exit");
+        UserInfo userInfo = readUserInfo(USER_DATA_FILE, UserScreen.getUserName());
+        userInfo.setcoin(gameState.getCoin().getCoin());
+        userInfo.setHighest_score(gameState.getScore());
+        userInfo.setRemained_lives(gameState.getLivesRemaining());
+        SaveDataManager.deleteLinesByKeyword(USER_DATA_FILE,UserScreen.getUserName());
+        SaveDataManager.SaveUserInfo(userInfo);
         fileHandler.flush();
         fileHandler.close();
         System.exit(0);

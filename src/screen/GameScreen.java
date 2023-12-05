@@ -272,6 +272,7 @@ public class GameScreen extends Screen {
 	public final int run() {
 		super.run();
 		this.score += LIFE_SCORE * (this.lives - 1);
+		if(this.score < 0){ this.score = 0;}
 		this.logger.info("Screen cleared with a score of " + this.score);
 
 		return this.returnCode;
@@ -483,6 +484,7 @@ public class GameScreen extends Screen {
 
 		timer.update();
 	}
+
 
 	/**
 	 * when the stage end, eat all dropped item.
@@ -736,9 +738,9 @@ public class GameScreen extends Screen {
 				if (this.enemyShipSpecial != null
 						&& !this.enemyShipSpecial.isDestroyed()
 						&& checkCollision(bullet, this.enemyShipSpecial)) {
-					enemyShipSpecial.reduceEnemyLife(bullet.getDamage());
-					this.logger.info("Attack the enemy with " + bullet.getDamage()
-						+ " of damage.");
+					enemyShipSpecial.reduceEnemyLife(bullet.getDamage()); 
+					this.logger.info("Attack the enemy with " + bullet.getDamage() 
+						+ " of damage.");					
 					this.combo ++;
 					this.score += combo;
 					this.Miss =1;
