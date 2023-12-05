@@ -212,7 +212,7 @@ public class TwoPlayScoreScreen extends Screen {
                 this.isNewRecord);
         drawManager.drawResults(this, this.score, this.livesRemaining,
                 this.shipsDestroyed, this.difficulty, (float) this.shipsDestroyed
-                        / this.bulletsShot, this.isNewRecord);
+                        / this.bulletsShot, this.isNewRecord, "aaa");
 
         if (this.isNewRecord)
             drawManager.drawNameInput(this, this.name, this.nameCharSelected);
