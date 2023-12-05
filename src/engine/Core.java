@@ -12,9 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import entity.Coin;
+import entity.UserInfo;
 import screen.*;
 
 import javax.swing.*;
+
+import static engine.GetUserInfo.readUserInfo;
 
 /**
  * Implements core game logic.
@@ -123,6 +126,7 @@ public final class Core {
     private static int BulletsRemaining_1p;
     private static int BulletsRemaining_2p;
     private int returnCode;
+    private static final String USER_DATA_FILE = "res/user_data.txt";
 
 
     /**
@@ -166,7 +170,6 @@ public final class Core {
         Map<Color, Boolean> equippedSkins = new HashMap<>();
         Map<Color, Boolean> ownedSkins = new HashMap<>();
 
-
         int returnCode = 1;
         do {
             Coin coin = new Coin(0, 0);
@@ -191,6 +194,12 @@ public final class Core {
                     break;
 
                 case 2:
+                    UserInfo userInfo = readUserInfo(USER_DATA_FILE, UserScreen.getUserName());
+                    coin.setCoin(userInfo.getcoin());
+                    double lives = userInfo.getRemained_lives();
+                    if (lives < 1.0) lives++; // 목숨이 1개 미만이면 1개
+                    gameState = new GameState(1, userInfo.getHighest_score(), coin, lives, 0, 0,
+                            false, Color.WHITE, "B U Y", ownedSkins, equippedSkins, 99);
                     currentScreen = new SelectScreen(width, height, FPS, 0); // Difficulty Selection
                     LOGGER.info("Select Difficulty");
                     difficulty = frame.setScreen(currentScreen);
@@ -770,7 +779,13 @@ public final class Core {
             }
 
         } while (returnCode != 0);
-
+        System.out.println("....System exit");
+        UserInfo userInfo = readUserInfo(USER_DATA_FILE, UserScreen.getUserName());
+        userInfo.setcoin(gameState.getCoin().getCoin());
+        userInfo.setHighest_score(gameState.getScore());
+        userInfo.setRemained_lives(gameState.getLivesRemaining());
+        SaveDataManager.deleteLinesByKeyword(USER_DATA_FILE,UserScreen.getUserName());
+        SaveDataManager.SaveUserInfo(userInfo);
         fileHandler.flush();
         fileHandler.close();
         System.exit(0);

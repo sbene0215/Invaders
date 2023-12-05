@@ -272,6 +272,7 @@ public class GameScreen extends Screen {
 	public final int run() {
 		super.run();
 		this.score += LIFE_SCORE * (this.lives - 1);
+		if(this.score < 0){ this.score = 0;}
 		this.logger.info("Screen cleared with a score of " + this.score);
 
 		return this.returnCode;

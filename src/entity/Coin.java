@@ -39,6 +39,7 @@ public class Coin extends Item {
     public int getCollectedCoins() {
         return this.collectedCoins;
     }
+    public void setCoin(int coin) { this.coin = coin; }
 
 }
 
