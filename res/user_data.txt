@@ -1,2 +1,15 @@
 sss 10 3.0 500
 suh 0 3.0 0
+eun 0 3.0 0
+rad 0 3.0 0
+
+temp77 0 3.0 0
+temp6 20 0.0 37
+temp1 40 0.0 542
+temp4 20 0.0 716
+temp3 458 0.0 6970
+qwe 0 3.0 0
+aaa 0 3.0 0
+qweqe 0 3.0 0
+asdfq 0 3.0 0
+seungjun 0 3.0 0

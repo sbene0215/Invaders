@@ -1517,13 +1517,14 @@ public final class DrawManager {
 	 */
 	public void drawResults(final Screen screen, final int score,
 			final double livesRemaining, final int shipsDestroyed, final int difficulty,
-			final float accuracy, final boolean isNewRecord) {
+			final float accuracy, final boolean isNewRecord, final String player_name) {
 		String scoreString = String.format("score %04d", score);
 		String difficultyString = "Difficulty ";
 		String livesRemainingString = "lives remaining " + livesRemaining;
 		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
 		String accuracyString = String
 				.format("Accuracy %.2f%%", accuracy * 100);
+		//String playername = player_name;
 
 		int height = isNewRecord ? 4 : 2;
 
@@ -1550,6 +1551,8 @@ public final class DrawManager {
 						* 6);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
 				/ height + fontRegularMetrics.getHeight() * 8);
+		drawCenteredRegularString(screen, "Your name :" + player_name, screen.getHeight()
+				/ height - fontRegularMetrics.getHeight() * 2); // 위쪽에
 	}
 
 	/**
@@ -1620,7 +1623,7 @@ public final class DrawManager {
 
 		backBufferGraphics.setColor(slowlyChangingColors("GREEN"));
 		drawCenteredBigString(screen, gameOverString, screen.getHeight()
-				/ height - fontBigMetrics.getHeight() * 2);
+				/ height - fontBigMetrics.getHeight() * 4);
 
 		if (acceptsInput)
 			backBufferGraphics.setColor(slowlyChangingColors("GREEN"));

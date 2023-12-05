@@ -25,4 +25,9 @@ public class UserInfo {
     public int getHighest_score() {
         return highest_score;
     }
+
+    public void setcoin(int coin){this.coin = coin;}
+    public void setRemained_lives(double lives){this.remained_lives = lives;}
+    public void setHighest_score(int score){this.highest_score = score;}
+
 }

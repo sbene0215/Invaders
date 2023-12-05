@@ -4,10 +4,7 @@ import engine.SaveDataManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 
 public class UserScreen {
     private static final String ID_DATA_FILE = "res/user_names.txt";
@@ -101,5 +98,32 @@ public class UserScreen {
 
         return false;
     }
+    public static void deleteLinesByKeyword(String filePath, String keyword) {
+        File inputFile = new File(filePath);
+        File tempFile = new File(filePath + "_temp");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains(keyword)) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Replace the original file with the modified file
+        if (inputFile.delete() && tempFile.renameTo(inputFile)) {
+            System.out.println("Lines containing the keyword deleted.");
+        } else {
+            System.err.println("Failed to update the file.");
+        }
+    }
+
 }
 
