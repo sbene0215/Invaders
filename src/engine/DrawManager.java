@@ -29,12 +29,12 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-
 import entity.Coin;
 import entity.Entity;
 import screen.GameScreen;
 import screen.GameScreen_2P;
 import screen.Screen;
+import screen.UserScreen;
 
 
 /**
@@ -1034,6 +1034,7 @@ public final class DrawManager {
 		String playString = "P L A Y";
 		String twoplayString = "2 P  P L A Y";
 		String highScoresString = "H I G H  S C O R E S";
+		String ItemStoreString = "I T E M  S T O R E";
 		String exitString = "E X I T";
 
 		if (option == 2)
@@ -1054,12 +1055,18 @@ public final class DrawManager {
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 4);
+		if (option == 35)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, ItemStoreString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 6);
 		if (option == 0)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
-				* 2 + fontRegularMetrics.getHeight() * 6);
+				* 2 + fontRegularMetrics.getHeight() * 8);
 	}
 
 
@@ -1510,13 +1517,14 @@ public final class DrawManager {
 	 */
 	public void drawResults(final Screen screen, final int score,
 			final double livesRemaining, final int shipsDestroyed, final int difficulty,
-			final float accuracy, final boolean isNewRecord) {
+			final float accuracy, final boolean isNewRecord, final String player_name) {
 		String scoreString = String.format("score %04d", score);
 		String difficultyString = "Difficulty ";
 		String livesRemainingString = "lives remaining " + livesRemaining;
 		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
 		String accuracyString = String
 				.format("Accuracy %.2f%%", accuracy * 100);
+		//String playername = player_name;
 
 		int height = isNewRecord ? 4 : 2;
 
@@ -1543,6 +1551,8 @@ public final class DrawManager {
 						* 6);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
 				/ height + fontRegularMetrics.getHeight() * 8);
+		drawCenteredRegularString(screen, "Your name :" + player_name, screen.getHeight()
+				/ height - fontRegularMetrics.getHeight() * 2); // 위쪽에
 	}
 
 	/**
@@ -1613,7 +1623,7 @@ public final class DrawManager {
 
 		backBufferGraphics.setColor(slowlyChangingColors("GREEN"));
 		drawCenteredBigString(screen, gameOverString, screen.getHeight()
-				/ height - fontBigMetrics.getHeight() * 2);
+				/ height - fontBigMetrics.getHeight() * 4);
 
 		if (acceptsInput)
 			backBufferGraphics.setColor(slowlyChangingColors("GREEN"));
@@ -2292,9 +2302,9 @@ if (option == 35)
 	 *               Screen to draw on.
 	 * @param option
 	 *               Option selected.
-	 * @param valEnhanceArea
+	 * @param numEnhanceArea
 	 *                Current Value of Enhanced Area Range.
-	 * @param valEnhanceDamage
+	 * @param numEnhanceArea
 	 *               Current Value of Enhanced Damage.
 	 * @param lvEnhanceArea
 	 *               Current Level of Enhanced Area Range.
@@ -2522,6 +2532,9 @@ if (option == 35)
 
 	public void gameOver(final Screen screen, boolean levelFinished, double lives,int bullets, CountUpTimer timer, Coin coin, String clearcoin){
 		if(levelFinished){
+
+			int collectedCoins = coin.getCoin();
+
 			if(lives <= 0 || bullets<=0){
 				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
 				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
@@ -2529,6 +2542,7 @@ if (option == 35)
 				backBufferGraphics.setFont(fontBig);
 				backBufferGraphics.setColor(Color.red);
 				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
+
 			}
 			else {
 				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);
@@ -2549,6 +2563,9 @@ if (option == 35)
 				else{
 					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
 				}
+
+				SaveDataManager.saveGameCoinData(collectedCoins + coin.getCollectedCoins());
+
 			}
 		}
 	}

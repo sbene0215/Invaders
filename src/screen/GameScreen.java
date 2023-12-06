@@ -485,6 +485,7 @@ public class GameScreen extends Screen {
 		timer.update();
 	}
 
+
 	/**
 	 * when the stage end, eat all dropped item.
 	 */
@@ -737,9 +738,9 @@ public class GameScreen extends Screen {
 				if (this.enemyShipSpecial != null
 						&& !this.enemyShipSpecial.isDestroyed()
 						&& checkCollision(bullet, this.enemyShipSpecial)) {
-					enemyShipSpecial.reduceEnemyLife(bullet.getDamage());
-					this.logger.info("Attack the enemy with " + bullet.getDamage()
-						+ " of damage.");
+					enemyShipSpecial.reduceEnemyLife(bullet.getDamage()); 
+					this.logger.info("Attack the enemy with " + bullet.getDamage() 
+						+ " of damage.");					
 					this.combo ++;
 					this.score += combo;
 					this.Miss =1;
