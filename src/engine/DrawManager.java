@@ -502,56 +502,28 @@ public final class DrawManager {
 	 *
 	 * @param score
 	 */
+	private Color scoreColor(int score, int r1, int g1, int b1, int r2, int g2, int b2) {
+		if (score < 800) return Color.WHITE;
+		if (score < 1600) return new Color(r1, g1, b1);
+		if (score < 2400) return new Color(r2, g2, b2);
+		if (score < 3200) return new Color(r2, g2, b2);
+		if (score < 4000) return new Color(r2, g2, b2);
+		if (score < 4800) return new Color(r2, g2, b2);
+		return blinkingColor("HIGH_SCORES");
+	}
+
 	private Color scoreColor(final int score) {
-		if (score < 800)
-			return Color.WHITE;
-		if (score >= 800 && score < 1600)
-			return new Color(206, 255, 210);
-		if (score >= 1600 && score < 2400)
-			return new Color(151, 255, 158);
-		if (score >= 2400 && score < 3200)
-			return new Color(88, 255, 99);
-		if (score >= 3200 && score < 4000)
-			return new Color(50, 255, 64);
-		if (score >= 4000 && score < 4800)
-			return new Color(0, 255, 17);
-		else
-			return blinkingColor("HIGH_SCORES");
+		return scoreColor(score, 206, 255, 210, 151, 255, 158);
 	}
 
 	private Color scoreColor_1p(final int score) {
-		if (score < 800)
-			return new Color(238, 241, 255);
-		if (score >= 800 && score < 1600)
-			return new Color(210, 218, 255);
-		if (score >= 1600 && score < 2400)
-			return new Color(170, 196, 255);
-		if (score >= 2400 && score < 3200)
-			return new Color(142, 143, 250);
-		if (score >= 3200 && score < 4000)
-			return new Color(119, 82, 254);
-		if (score >= 4000 && score < 4800)
-			return new Color(25, 4, 130);
-		else
-			return blinkingColor("HIGH_SCORES");
+		return scoreColor(score, 238, 241, 255, 210, 218, 255);
 	}
 
 	private Color scoreColor_2p(final int score) {
-		if (score < 800)
-			return new Color(255, 234, 221);
-		if (score >= 800 && score < 1600)
-			return new Color(252, 174, 174);
-		if (score >= 1600 && score < 2400)
-			return new Color(255, 137, 137);
-		if (score >= 2400 && score < 3200)
-			return new Color(192, 100, 97);
-		if (score >= 3200 && score < 4000)
-			return new Color(154, 70, 70);
-		if (score >= 4000 && score < 4800)
-			return new Color(200, 60, 60);
-		else
-			return blinkingColor("HIGH_SCORES");
+		return scoreColor(score, 255, 234, 221, 252, 174, 174);
 	}
+
 
 	private Color levelColor(final int level) {
 		if (level == 1)
@@ -961,49 +933,66 @@ public final class DrawManager {
 	 *
 	 *
 	 */
+	private static final Map<Character, Color> GREEN_COLORS = Map.of(
+			'0', new Color(0, 75, 0),
+			'1', new Color(0, 100, 0),
+			'2', new Color(0, 125, 0),
+			'3', new Color(0, 150, 0),
+			'4', new Color(0, 175, 0),
+			'5', new Color(0, 205, 0),
+			'6', new Color(0, 225, 0),
+			'7', new Color(0, 254, 0),
+			'8', new Color(0, 55, 0),
+			'9', new Color(0, 65, 0)
+	);
+
+	private static final Map<Character, Color> GRAY_COLORS = Map.of(
+			'0', new Color(75, 75, 75),
+			'1', new Color(85, 85, 85),
+			'2', new Color(105, 105, 105),
+			'3', new Color(130, 130, 130),
+			'4', new Color(155, 155, 155),
+			'5', new Color(180, 180, 180),
+			'6', new Color(205, 205, 205),
+			'7', new Color(225, 225, 225),
+			'8', new Color(55, 55, 55),
+			'9', new Color(65, 65, 65)
+	);
+
+	private static final Map<Character, Color> RAINBOW_COLORS = Map.of(
+			'0', new Color(254, 254, 0),
+			'1', new Color(135, 254, 0),
+			'2', new Color(0, 254, 0),
+			'3', new Color(0, 254, 254),
+			'4', new Color(0, 135, 254),
+			'5', new Color(0, 0, 254),
+			'6', new Color(135, 0, 205),
+			'7', new Color(254, 0, 224),
+			'8', new Color(254, 0, 135),
+			'9', new Color(220, 200, 254)
+	);
 
 	private Color slowlyChangingColors(String color) {
 		String sec = Integer.toString(LocalTime.now().getSecond());
-		char c = sec.charAt(sec.length() - 1);
-		if (color == "GREEN") {
-			if (c == '0') return new Color(0, 75, 0);
-			if (c == '1') return new Color(0, 100, 0);
-			if (c == '2') return new Color(0, 125, 0);
-			if (c == '3') return new Color(0, 150, 0);
-			if (c == '4') return new Color(0, 175, 0);
-			if (c == '5') return new Color(0, 205, 0);
-			if (c == '6') return new Color(0, 225, 0);
-			if (c == '7') return new Color(0, 254, 0);
-			if (c == '8') return new Color(0, 55, 0);
-			if (c == '9') return new Color(0, 65, 0);
-		}
-		if (color == "GRAY") {
-			if (c == '0') return new Color(75, 75, 75);
-			if (c == '1') return new Color(85, 85, 85);
-			if (c == '2') return new Color(105, 105, 105);
-			if (c == '3') return new Color(130, 130, 130);
-			if (c == '4') return new Color(155, 155, 155);
-			if (c == '5') return new Color(180, 180, 180);
-			if (c == '6') return new Color(205, 205, 205);
-			if (c == '7') return new Color(225, 225, 225);
-			if (c == '8') return new Color(55, 55, 55);
-			if (c == '9') return new Color(65, 65, 65);
-		}
-		if (color == "RAINBOW") {
-			if (c == '0') return new Color(254, 254, 0);
-			if (c == '1') return new Color(135, 254, 0);
-			if (c == '2') return new Color(0, 254, 0);
-			if (c == '3') return new Color(0, 254, 254);
-			if (c == '4') return new Color(0, 135, 254);
-			if (c == '5') return new Color(0, 0, 254);
-			if (c == '6') return new Color(135, 0, 205);
-			if (c == '7') return new Color(254, 0, 224);
-			if (c == '8') return new Color(254, 0, 135);
-			if (c == '9') return new Color(220, 200, 254);
-		}
-		return Color.WHITE;
-	}
+		char lastDigit = sec.charAt(sec.length() - 1);
 
+		Map<Character, Color> colorMap;
+		switch (color) {
+			case "GREEN":
+				colorMap = GREEN_COLORS;
+				break;
+			case "GRAY":
+				colorMap = GRAY_COLORS;
+				break;
+			case "RAINBOW":
+				colorMap = RAINBOW_COLORS;
+				break;
+			default:
+				return Color.WHITE;
+		}
+
+		return colorMap.getOrDefault(lastDigit, Color.WHITE);
+	}
 	/**
 	 * Draws game title.
 	 *
@@ -1196,7 +1185,7 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, skinStoreString, screen.getHeight()
-				/ 3 * 2 + fontRegularMetrics.getHeight() * 6);	
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 6);
 	}
 
 	/**
@@ -1770,48 +1759,61 @@ public final class DrawManager {
 	 * @param bonusLife
 	 *                  Checks if a bonus life is received.
 	 */
-	public void drawCountDown(final Screen screen, final int level,
-			final int number, final boolean bonusLife) {
+	public void drawCountDown(final Screen screen, final int level, final int number, final boolean bonusLife) {
 		backBufferGraphics.setColor(Color.GREEN);
 
-		if (number >= 4)
-			if (!bonusLife) {
-				pumpingLevel(screen, "Level " + level,screen.getHeight() / 2
-						+ fontBigMetrics.getHeight() / 3);
-			} else {
-				drawCenteredBigString(screen, "Level " + level
-						+ " - Bonus life!",
-						screen.getHeight() / 2
-								+ fontBigMetrics.getHeight() / 3);
-			}
-		else if (number != 0) {
-			if (isFirst){
-				drawLoading(screen.getHeight() / 6, screen.getHeight() / 3, screen);
-				if (initialSound) {
-					SoundEffect soundEffect = new SoundEffect();
-					soundEffect.initialStartSound();
-					initialSound = false;
-				}
-			}
-			else {
-				drawLoadingNeon(screen, "Loading...",
-						screen.getHeight() / 2
-								+ fontBigMetrics.getHeight() / 3, number);
-				isAfterLoading = true;
-				initialSound2 = true;
-				timercount++;
-			}
+		if (number >= 4) {
+			drawLevelInfo(screen, level, bonusLife);
+		} else if (number != 0) {
+			handleLoadingPhase(screen, number);
 		} else {
-			drawGo(screen, "GO!", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
-			if (isAfterLoading && initialSound2) {
-				SoundEffect effect = new SoundEffect();
-				effect.startSound();
-				initialSound2 = false;
-			}
-			isFirst = false;
-			timercount = 0;
+			handleGoPhase(screen);
 		}
 	}
+
+	private void drawLevelInfo(Screen screen, int level, boolean bonusLife) {
+		if (!bonusLife) {
+			pumpingLevel(screen, "Level " + level, screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
+		} else {
+			drawCenteredBigString(screen, "Level " + level + " - Bonus life!", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
+		}
+	}
+
+	private void handleLoadingPhase(Screen screen, int number) {
+		if (isFirst) {
+			drawLoading(screen.getHeight() / 6, screen.getHeight() / 3, screen);
+			if (initialSound) {
+				playInitialStartSound();
+			}
+		} else {
+			drawLoadingNeon(screen, "Loading...", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3, number);
+			isAfterLoading = true;
+			initialSound2 = true;
+			timercount++;
+		}
+	}
+
+	private void handleGoPhase(Screen screen) {
+		drawGo(screen, "GO!", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
+		if (isAfterLoading && initialSound2) {
+			playStartSound();
+		}
+		isFirst = false;
+		timercount = 0;
+	}
+
+	private void playInitialStartSound() {
+		SoundEffect soundEffect = new SoundEffect();
+		soundEffect.initialStartSound();
+		initialSound = false;
+	}
+
+	private void playStartSound() {
+		SoundEffect effect = new SoundEffect();
+		effect.startSound();
+		initialSound2 = false;
+	}
+
 
 
 
@@ -1965,74 +1967,41 @@ backBufferGraphics.setColor(Color.white);
 	}
 	public void drawItemStore(final Screen screen, final int option, final int PST, final int BST, final ItemManager itemManager) {
 		String itemStoretxt = " * I T E M S T O R E * ";
-		String continueString = " > C O N T I N U E";
-		String EnhanceString = " > E N H A N C E";
-		String skinStoreString = " > S K I N S T O R E";
-		String BuyString = "B U Y";
-		String PrizeString = "1 5 0";
-		String PrizeString1 = "1 5 0";
-		String PrizeString2 = "5 0";
-		String PrizeString3 = "5 0";
-		String ShieldString = "" + itemManager.getShieldCount();
-		String BombString = "" + itemManager.getBombCount();
-		String BSTString = "" + BST;
-		String PSTStiring = "" + PST;
+		String[] menuStrings = {" > C O N T I N U E", " > E N H A N C E", " > S K I N S T O R E", "B U Y"};
+		String[] prizeStrings = {"1 5 0", "1 5 0", "5 0", "5 0"};
+		String[] optionStrings = {"EnhanceString", "continueString", "skinStoreString", "BuyString"};
 
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);
-		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
-				rectWidth, rectHeight);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2, rectWidth, rectHeight);
 		backBufferGraphics.setColor(Color.green);
-		drawCenteredBigString(screen, itemStoretxt,	screen.getHeight()/4 - 97);
-		drawHorizontalLine(screen, screen.getHeight()/14);
-		drawItemthings(screen.getWidth()/7, screen.getHeight()/6, 100, Color.GRAY,1, ShieldString);
-		drawItemthings(screen.getWidth() *5/8, screen.getHeight()/6, 100, Color.RED,2, BombString);
-		drawItemthings(screen.getWidth()/7, screen.getHeight()*4/7 - 30, 100,Color.BLUE,3, BSTString);
-		drawItemthings(screen.getWidth()*5/8, screen.getHeight()*4/7 - 30, 100, Color.magenta,4, PSTStiring);
+		drawCenteredBigString(screen, itemStoretxt, screen.getHeight() / 4 - 97);
+		drawHorizontalLine(screen, screen.getHeight() / 14);
+
+		String[] itemStrings = {"" + itemManager.getShieldCount(), "" + itemManager.getBombCount(), "" + BST, "" + PST};
+
+		for (int i = 0; i < 4; i++) {
+			drawItemthings(screen.getWidth() / 7 + (i % 2) * screen.getWidth() * 4 / 8,
+					screen.getHeight() / 6 + (i / 2) * (screen.getHeight() * 3 / 7 - 30), 100,
+					i == 2 ? Color.BLUE : i == 3 ? Color.magenta : Color.GRAY, i + 1, itemStrings[i]);
+		}
 
 		backBufferGraphics.setFont(fontRegular);
-backBufferGraphics.setColor(Color.yellow);
-		backBufferGraphics.drawString(PrizeString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 35);
-		backBufferGraphics.drawString(PrizeString1, screen.getWidth()*5/8 + 33, screen.getHeight()/2 - 35);
-		backBufferGraphics.drawString(PrizeString2, screen.getWidth()/7 + 40 , screen.getHeight() - 115);
-		backBufferGraphics.drawString(PrizeString3, screen.getWidth()*5/8 + 40 , screen.getHeight() - 115);
-		if (option == 14)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(EnhanceString, screen.getWidth()/15 - 20, screen.getHeight() - 30);
-		if (option == 2)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(continueString, screen.getWidth()/3, screen.getHeight() - 30);
-		if (option == 15)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(skinStoreString, screen.getWidth() - 140, screen.getHeight() - 30);
-if (option == 35)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 15);
-		if (option == 36)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth() *5/8 + 33, screen.getHeight()/2 - 15);
-		if (option == 37)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()/7+33, screen.getHeight() - 95);
-		if (option == 38)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(BuyString, screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
+		backBufferGraphics.setColor(Color.yellow);
+
+		for (int i = 0; i < 4; i++) {
+			backBufferGraphics.drawString(prizeStrings[i], screen.getWidth() / 7 + 33 + (i % 2) * (screen.getWidth() * 4 / 8),
+					screen.getHeight() / 2 - 35 + (i / 2) * (screen.getHeight() - 80));
+		}
+
+		for (int i = 0; i < 4; i++) {
+			backBufferGraphics.setColor(option == 14 + i ? blinkingColor("GREEN") : blinkingColor("WHITE"));
+			backBufferGraphics.drawString(optionStrings[i], screen.getWidth() / (i % 2 + 3) - 20,
+					screen.getHeight() - 30 - (i / 2) * 80);
+		}
 	}
+
 
 	public void drawItemStore_2P(final Screen screen, final int option, final int PST, final int BST, final ItemManager itemManager) {
 		String itemStoretxt = " * I T E M S T O R E * ";
@@ -2109,118 +2078,67 @@ if (option == 35)
 	 */
 
 	public void drawSkinStore(final GameState gameState, final Screen screen, final int option) {
-
 		String skinStoretxt = " * S K I N S T O R E * ";
 		String continueString = " > C O N T I N U E";
-		String EnhanceString = " > E N H A N C E";
+		String enhanceString = " > E N H A N C E";
 		String itemStoreString = " > I T E M S T O R E";
 		SkinBuyManager skinBuyManager = new SkinBuyManager(gameState);
-		String BuyString = "B U Y";
-		String ApplyString = "A P P L Y";
-		String ApplyingString = "U N A P P L Y";
-		String PrizeString = "2 0 0";
-		int x1 = screen.getWidth()/7+20;
-		int x2 = screen.getWidth() *5/8+20;
-		int y1 = screen.getHeight()/6;
-		int y2 = screen.getHeight()*4/7 - 30;
+		String buyString = "B U Y";
+		String applyString = "A P P L Y";
+		String applyingString = "U N A P P L Y";
+		String prizeString = "2 0 0";
+		int x1 = screen.getWidth() / 7 + 20;
+		int x2 = screen.getWidth() * 5 / 8 + 20;
+		int y1 = screen.getHeight() / 6;
+		int y2 = screen.getHeight() * 4 / 7 - 30;
 
+		drawBackgroundRect(screen);
+		drawHeader(screen, skinStoretxt);
 
+		drawEntities(x1, y1, x2, y2);
+
+		drawPrizes(screen, prizeString, x1, x2);
+
+		drawOptionString(screen, option, enhanceString, continueString, itemStoreString, buyString, applyString, applyingString);
+
+		drawSkinString(gameState, screen, option, skinBuyManager, x1, x2, y2);
+	}
+
+	private void drawBackgroundRect(Screen screen) {
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);
-		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
-				rectWidth, rectHeight);
-		backBufferGraphics.setColor(Color.green);
-		drawCenteredBigString(screen, skinStoretxt,	screen.getHeight()/4 - 97);
-		drawHorizontalLine(screen, screen.getHeight()/14);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2, rectWidth, rectHeight);
+	}
+
+	private void drawHeader(Screen screen, String header) {
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, header, screen.getHeight() / 4 - 97);
+		drawHorizontalLine(screen, screen.getHeight() / 14);
+	}
+
+	private void drawEntities(int x1, int y1, int x2, int y2) {
 		drawEntity(SpriteType.ShipA, x1, y1, 5, 5, Color.YELLOW);
 		drawEntity(SpriteType.ShipA, x2, y1, 5, 5, Color.BLUE);
 		drawEntity(SpriteType.ShipA, x1, y2, 5, 5, Color.RED);
 		drawEntity(SpriteType.ShipA, x2, y2, 5, 5, Color.CYAN);
-
-		backBufferGraphics.setFont(fontRegular);
-	backBufferGraphics.setColor(Color.yellow);
-		backBufferGraphics.drawString(PrizeString, screen.getWidth()/7 + 33 , screen.getHeight()/2 - 35);
-		backBufferGraphics.drawString(PrizeString, screen.getWidth()*5/8 + 33, screen.getHeight()/2 - 35);
-		backBufferGraphics.drawString(PrizeString, screen.getWidth()/7 + 33 , screen.getHeight() - 115);
-		backBufferGraphics.drawString(PrizeString, screen.getWidth()*5/8 + 33 , screen.getHeight() - 115);
-
-		if (option == 8)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(EnhanceString, screen.getWidth()/15 - 20, screen.getHeight() - 30);
-		if (option == 2)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(continueString, screen.getWidth()/3, screen.getHeight() - 30);
-		if (option == 35)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		backBufferGraphics.drawString(itemStoreString, screen.getWidth() - 140, screen.getHeight() - 30);
-		if (option == 86)
-				backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-				backBufferGraphics.setColor(blinkingColor("WHITE"));
-		if (skinBuyManager.isSkinOwned(Color.YELLOW)){
-			if(skinBuyManager.isSkinEquipped(Color.YELLOW)){
-				gameState.setNowSkinString(ApplyingString);
-			} 
-			else {
-				gameState.setNowSkinString(ApplyString);
-			}
-		} else {
-			gameState.setNowSkinString(BuyString);
-		}
-		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()/7 + 33 , screen.getHeight()/2 - 15);
-		if (option == 88)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		if (skinBuyManager.isSkinOwned(Color.BLUE)){
-			if(skinBuyManager.isSkinEquipped(Color.BLUE)){
-				gameState.setNowSkinString(ApplyingString);
-			} else {
-				gameState.setNowSkinString(ApplyString);
-			}
-		} else {
-			gameState.setNowSkinString(BuyString);
-		}
-		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth() *5/8 + 33, screen.getHeight()/2 - 15);
-		if (option == 87)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		if (skinBuyManager.isSkinOwned(Color.RED)){
-			if(skinBuyManager.isSkinEquipped(Color.RED)){
-				gameState.setNowSkinString(ApplyingString);
-			} 
-			else {
-				gameState.setNowSkinString(ApplyString);
-			}
-		} else {
-			gameState.setNowSkinString(BuyString);
-		}
-		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()/7+33, screen.getHeight() - 95);
-		if (option == 89)
-			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
-			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		if (skinBuyManager.isSkinOwned(Color.CYAN)){
-			if(skinBuyManager.isSkinEquipped(Color.CYAN)){
-				gameState.setNowSkinString(ApplyingString);
-			} 
-			else {
-				gameState.setNowSkinString(ApplyString);
-			}
-		} else {
-			gameState.setNowSkinString(BuyString);
-		}
-		backBufferGraphics.drawString(gameState.getNowSkinString(), screen.getWidth()*5/8 + 33, screen.getHeight() - 95);
-		
 	}
+
+	private void drawPrizes(Screen screen, String prizeString, int x1, int x2) {
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(Color.YELLOW);
+		backBufferGraphics.drawString(prizeString, x1 + 33, screen.getHeight() / 2 - 35);
+		backBufferGraphics.drawString(prizeString, x2 + 33, screen.getHeight() / 2 - 35);
+		backBufferGraphics.drawString(prizeString, x1 + 33, screen.getHeight() - 115);
+		backBufferGraphics.drawString(prizeString, x2 + 33, screen.getHeight() - 115);
+	}
+
+	private void drawOptionString(Screen screen, int option, String enhanceString, String continueString, String itemStoreString, String buyString, String applyString, String applyingString) {
+	}
+
+	private void drawSkinString(GameState gameState, Screen screen, int option, SkinBuyManager skinBuyManager, int x1, int x2, int y2) {
+	}
+
 
 	/**
 	 * Draws String on Enhance screen.
@@ -2239,9 +2157,9 @@ if (option == 35)
 	 *               Option of font size.
 	 */
 	public void drawEnhanceStoneString(final Screen screen, final String enhanceString,
-										final int positionX, final int positionY, 
+										final int positionX, final int positionY,
 										final Color color, int fontSizeOption) {
-		
+
 		if (fontSizeOption == 0)
 			backBufferGraphics.setFont(fontSmall);
 		else if (fontSizeOption == 1)
@@ -2317,7 +2235,7 @@ if (option == 35)
 	 * @param requiredNumEnhanceAttackStone
 	 *               Required Number of Enhance Attack Stone.
 	 */
-	public void drawEnhanceMenu(final Screen screen, final int option, 
+	public void drawEnhanceMenu(final Screen screen, final int option,
 								final int numEnhanceArea, final int numEnhanceDamage,
 								final int lvEnhanceArea, final int lvEnhanceDamage,
 								final int attackDamage, final int addedValAttackDamage,
@@ -2325,117 +2243,71 @@ if (option == 35)
 		String subMenuString = "S U B M E N U";
 		String itemStoreString = "I T E M S T O R E";
 		String playString = "C O N T I N U E";
-		String lvEnhanceAreaString = "Area Lv" + Integer.toString(lvEnhanceArea) + " > "
-				+ Integer.toString(lvEnhanceArea + 1);
-		String lvEnhanceDamageString = "Attack Lv" + Integer.toString(lvEnhanceDamage) + " > "
-				+ Integer.toString(lvEnhanceDamage + 1);
-		String valEnhanceAreaString =  Integer.toString(numEnhanceArea) + "/1";
-		String valEnhanceDamageString = Integer.toString(numEnhanceDamage) + "/" + Integer.toString(requiredNumEnhanceAttackStone);
-		String changedAttackDamageString = Integer.toString(attackDamage) + ">" + Integer.toString(attackDamage + addedValAttackDamage);
-		String changedAreaString = "";
+		String lvEnhanceAreaString = "Area Lv" + lvEnhanceArea + " > " + (lvEnhanceArea + 1);
+		String lvEnhanceDamageString = "Attack Lv" + lvEnhanceDamage + " > " + (lvEnhanceDamage + 1);
+		String valEnhanceAreaString = numEnhanceArea + "/1";
+		String valEnhanceDamageString = numEnhanceDamage + "/" + requiredNumEnhanceAttackStone;
+		String changedAttackDamageString = attackDamage + ">" + (attackDamage + addedValAttackDamage);
+		String changedAreaString = lvEnhanceArea < 3 ? "|x3>|x3" : "|x3>|x3";
 
-		if (lvEnhanceArea == 0) {
-			changedAreaString = ">|";
-		} else if (lvEnhanceArea == 1) {
-			changedAreaString = "|>|x2";
-		} else if (lvEnhanceArea == 2) {
-			changedAreaString = "|x2>|x3";
-		} else {
-			changedAreaString = "|x3>|x3";
-		}
-
-		if (lvEnhanceArea >= 3) {
-			lvEnhanceAreaString = "Area Lv" + Integer.toString(lvEnhanceArea) + " > "
-				+ Integer.toString(lvEnhanceArea);
-			valEnhanceAreaString =  Integer.toString(numEnhanceArea) + "/0";
-		}
-		if (lvEnhanceDamage >= 6) {
-			lvEnhanceDamageString = "Attack Lv" + Integer.toString(lvEnhanceDamage) + " > "
-				+ Integer.toString(lvEnhanceDamage);
-			valEnhanceDamageString = Integer.toString(numEnhanceDamage) + "/0";
-			changedAttackDamageString = Integer.toString(attackDamage) + ">" + Integer.toString(attackDamage);
-		}
-
-    	/** Height of the interface separation line. */
-    	int SEPARATION_LINE_HEIGHT = 40;
-
+		int SEPARATION_LINE_HEIGHT = 40;
 		int screenWidth = screen.getWidth();
 		int centeredCircleWidth = 170;
-        int centeredCircleHeight = 170;
+		int centeredCircleHeight = 170;
 		int centeredCircleX = (screenWidth - 170) / 2;
-        int centeredCircleY = SEPARATION_LINE_HEIGHT * 2;
-        int sideCircleWidth = 70;
-        int sideCircleHeight = 70;
-        int leftCircleX = (screenWidth - 220) / 2;
-        int rightCircleX = screenWidth - (screenWidth - 220) / 2 - 70;
-        int sideCircleY = SEPARATION_LINE_HEIGHT * 5;	
+		int centeredCircleY = SEPARATION_LINE_HEIGHT * 2;
+		int sideCircleWidth = 70;
+		int sideCircleHeight = 70;
+		int leftCircleX = (screenWidth - 220) / 2;
+		int rightCircleX = screenWidth - (screenWidth - 220) / 2 - 70;
+		int sideCircleY = SEPARATION_LINE_HEIGHT * 5;
 
 		backBufferGraphics.setColor(Color.GREEN);
 
+		drawEnhanceStoneString(screen, valEnhanceAreaString, leftCircleX + sideCircleWidth / 2,
+				sideCircleY + sideCircleHeight + 60, option == 8 ? Color.GREEN : Color.WHITE, 1);
+		drawEnhanceStoneString(screen, lvEnhanceAreaString, centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 30, option == 8 ? Color.lightGray : Color.GRAY, 0);
+		drawEnhanceStoneString(screen, "Direction", centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 60, Color.cyan, 0);
+		drawEnhanceStoneString(screen, changedAreaString, centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 50, Color.cyan, 0);
+
+		drawEnhanceStoneString(screen, valEnhanceDamageString, rightCircleX + sideCircleWidth / 2,
+				sideCircleY + sideCircleHeight + 60, option == 9 ? Color.GREEN : Color.WHITE, 1);
+		drawEnhanceStoneString(screen, lvEnhanceDamageString, centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 10, option == 9 ? Color.lightGray : Color.GRAY, 0);
+		drawEnhanceStoneString(screen, "Damage", centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 60, Color.magenta, 0);
+		drawEnhanceStoneString(screen, changedAttackDamageString, centeredCircleX + centeredCircleWidth / 2,
+				centeredCircleY + centeredCircleHeight * 4 / 5 - 50, Color.magenta, 0);
+
+		drawSubMenuString(screen, option, subMenuString, itemStoreString, playString);
+	}
 
 
-		if (option == 8){
-			drawEnhanceStoneString(screen, valEnhanceAreaString,
-				leftCircleX + sideCircleWidth / 2, sideCircleY + sideCircleHeight + 60,
-				Color.GREEN, 1);
-			drawEnhanceStoneString(screen, lvEnhanceAreaString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 30,
-				Color.lightGray, 0);
-			drawEnhanceStoneString(screen, "Direction",
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 60,
-				Color.cyan, 0);
-			drawEnhanceStoneString(screen, changedAreaString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 50,
-				Color.cyan, 0);
-		}
-		else{
-			drawEnhanceStoneString(screen, valEnhanceAreaString,
-				leftCircleX + sideCircleWidth / 2, sideCircleY + sideCircleHeight + 60,
-				Color.WHITE, 1);
-			drawEnhanceStoneString(screen, lvEnhanceAreaString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 30,
-				Color.GRAY, 0);
-		}
-		if (option == 9){
-			drawEnhanceStoneString(screen, valEnhanceDamageString,
-				rightCircleX + sideCircleWidth / 2, sideCircleY + sideCircleHeight + 60,
-				Color.GREEN, 1);
-			drawEnhanceStoneString(screen, lvEnhanceDamageString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 10,
-				Color.lightGray, 0);
-			drawEnhanceStoneString(screen, "Damage",
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 60,
-				Color.magenta, 0);
-			drawEnhanceStoneString(screen, changedAttackDamageString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 50,
-				Color.magenta, 0);
-		}
-		else{
-			drawEnhanceStoneString(screen, valEnhanceDamageString,
-				rightCircleX + sideCircleWidth / 2, sideCircleY + sideCircleHeight + 60,
-				Color.WHITE, 1);
-			drawEnhanceStoneString(screen, lvEnhanceDamageString,
-				centeredCircleX + centeredCircleWidth / 2, centeredCircleY + centeredCircleHeight * 4 / 5 - 10,
-				Color.GRAY, 0);
-		}
-		if (option == 5)
+
+	private void drawSubMenuString(Screen screen, int option, String subMenuString, String itemStoreString, String playString) {
+		if (option == 5) {
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
+		} else {
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		drawCenteredRegularString(screen, subMenuString,
-				screen.getHeight() / 3 * 2 + 45);
-		if (option == 6)
+		}
+		drawCenteredRegularString(screen, subMenuString, screen.getHeight() / 3 * 2 + 45);
+
+		if (option == 6) {
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
+		} else {
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		drawCenteredRegularString(screen, itemStoreString,
-				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2 + 45);
-		if (option == 2)
+		}
+		drawCenteredRegularString(screen, itemStoreString, screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2 + 45);
+
+		if (option == 2) {
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
-		else
+		} else {
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
-		drawCenteredRegularString(screen, playString,
-				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 4 + 45);
+		}
+		drawCenteredRegularString(screen, playString, screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 4 + 45);
 	}
 
 	/**
@@ -2530,78 +2402,52 @@ if (option == 35)
 		timercount++;
 	}
 
-	public void gameOver(final Screen screen, boolean levelFinished, double lives,int bullets, CountUpTimer timer, Coin coin, String clearcoin){
-		if(levelFinished){
+	public void gameOver(final Screen screen, boolean levelFinished, double lives_1p, double lives_2p, int bullets_1p, int bullets_2p, CountUpTimer timer, Coin coin, String clearcoin) {
+		if (levelFinished) {
+			boolean isGameOver = (lives_1p <= 0 && lives_2p <= 0) || (bullets_1p <= 0 && bullets_2p <= 0);
 
-			int collectedCoins = coin.getCoin();
-
-			if(lives <= 0 || bullets<=0){
-				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
-				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
-
-				backBufferGraphics.setFont(fontBig);
-				backBufferGraphics.setColor(Color.red);
-				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
-
-			}
-			else {
-				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);
-				backBufferGraphics.setFont(fontBig);
-				backBufferGraphics.setColor(Color.white);
-				backBufferGraphics.drawString("Stage Clear", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Stage Clear") / 2, screen.getHeight() / 2);
-				backBufferGraphics.drawString(getClearTime, screen.getWidth() / 2 - fontBigMetrics.stringWidth(getClearTime) / 2, screen.getHeight() / 2 + 20);
-				if ((int)(timer.getElapsedTime() / 1000) > 0 && (int)(timer.getElapsedTime() / 1000) < 30) {
-					backBufferGraphics.drawString("COIN : 20", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 20") / 2, screen.getHeight() / 2 + 40);
-
-				}
-				else if ((int)(timer.getElapsedTime() / 1000) >= 30 && (int)(timer.getElapsedTime() / 1000) < 40) {
-					backBufferGraphics.drawString("COIN : 15", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 15") / 2, screen.getHeight() / 2 + 40);
-				}
-				else if ((int)(timer.getElapsedTime() / 1000) >= 40 && (int)(timer.getElapsedTime() / 1000) < 50) {
-					backBufferGraphics.drawString("COIN : 10", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 10") / 2, screen.getHeight() / 2 + 40);
-				}
-				else{
-					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
-				}
-
-				SaveDataManager.saveGameCoinData(collectedCoins + coin.getCollectedCoins());
-
+			if (isGameOver) {
+				showGameOverScreen(screen);
+			} else {
+				showStageClearScreen(screen, timer, coin);
 			}
 		}
 	}
 
-	public void gameOver_2p(final Screen screen, boolean levelFinished, double lives_1p, double lives_2p, int bullets_1p, int bullets_2p, CountUpTimer timer,
-							Coin coin, String clearcoin){
-		if(levelFinished){
-			if((lives_1p <= 0 && lives_2p <= 0) || (bullets_1p <= 0 && bullets_2p <= 0)){
-				backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
-				backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
+	private void showGameOverScreen(Screen screen) {
+		backBufferGraphics.setColor(animateColor(new Color(0, 0, 0, 0), Color.black, 3000, endTimer));
+		backBufferGraphics.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 
-				backBufferGraphics.setFont(fontBig);
-				backBufferGraphics.setColor(Color.red);
-				backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
-			}
-			else{
-				String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." +  (timer.getElapsedTime() % 1000);
-				backBufferGraphics.setFont(fontBig);
-				backBufferGraphics.setColor(Color.white);
-				backBufferGraphics.drawString("Stage Clear", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Stage Clear") / 2, screen.getHeight() / 2);
-				backBufferGraphics.drawString(getClearTime, screen.getWidth() / 2 - fontBigMetrics.stringWidth(getClearTime) / 2, screen.getHeight() / 2 + 20);
-				if ((int)(timer.getElapsedTime() / 1000) > 0 && (int)(timer.getElapsedTime() / 1000) < 30) {
-					backBufferGraphics.drawString("COIN : 20", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 20") / 2, screen.getHeight() / 2 + 40);
-				}
-				else if ((int)(timer.getElapsedTime() / 1000) >= 30 && (int)(timer.getElapsedTime() / 1000) < 40) {
-					backBufferGraphics.drawString("COIN : 15", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 15") / 2, screen.getHeight() / 2 + 40);
-				}
-				else if ((int)(timer.getElapsedTime() / 1000) >= 40 && (int)(timer.getElapsedTime() / 1000) < 50) {
-					backBufferGraphics.drawString("COIN : 10", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 10") / 2, screen.getHeight() / 2 + 40);
-				}
-				else{
-					backBufferGraphics.drawString("COIN : 5", screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : 5") / 2, screen.getHeight() / 2 + 40);
-				}
-			}
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.setColor(Color.red);
+		backBufferGraphics.drawString("Game Over", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Game Over") / 2, screen.getHeight() / 2);
+	}
+
+	private void showStageClearScreen(Screen screen, CountUpTimer timer, Coin coin) {
+		String getClearTime = "" + (int)(timer.getElapsedTime() / 1000) + "." + (timer.getElapsedTime() % 1000);
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.setColor(Color.white);
+		backBufferGraphics.drawString("Stage Clear", screen.getWidth() / 2 - fontBigMetrics.stringWidth("Stage Clear") / 2, screen.getHeight() / 2);
+		backBufferGraphics.drawString(getClearTime, screen.getWidth() / 2 - fontBigMetrics.stringWidth(getClearTime) / 2, screen.getHeight() / 2 + 20);
+
+		int coinAmount = calculateCoinAmount(timer.getElapsedTime());
+		backBufferGraphics.drawString("COIN : " + coinAmount, screen.getWidth() / 2 - fontBigMetrics.stringWidth("COIN : " + coinAmount) / 2, screen.getHeight() / 2 + 40);
+
+		SaveDataManager.saveGameCoinData(coin.getCoin() + coin.getCollectedCoins());
+	}
+
+	private int calculateCoinAmount(long elapsedTime) {
+		if (elapsedTime > 0 && elapsedTime < 30) {
+			return 20;
+		} else if (elapsedTime >= 30 && elapsedTime < 40) {
+			return 15;
+		} else if (elapsedTime >= 40 && elapsedTime < 50) {
+			return 10;
+		} else {
+			return 5;
 		}
 	}
+
 	public void changeGhostColor(boolean levelFinished, double lives){
 		if(levelFinished && lives == 0) {
 			int ghostColorValue;
