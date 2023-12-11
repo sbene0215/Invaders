@@ -1,4 +1,3 @@
-sss 10 3.0 500
 suh 0 3.0 0
 leenayoung 0 3.0 0
 eun 0 3.0 0

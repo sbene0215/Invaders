@@ -7,18 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 public class GetUserInfo {
 
-//    public static void main(String[] args) {
-//        String filePath = "res/user_data.txt";
-//        String keyword = "sss";
-
-//        UserInfo userInfo = readUserInfo(filePath, keyword);
-
-//        if (userInfo != null) {
-//            System.out.println("UserInfo: " + userInfo.getRemained_lives());
-//        } else {
-//            System.out.println("Keyword '" + keyword + "' not found in the file.");
-//        }
-//    }
     public static UserInfo readUserInfo(String filePath, String Id) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
