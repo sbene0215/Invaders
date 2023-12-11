@@ -58,39 +58,14 @@ public final class Core {
     /**
      * Difficulty settings for level 1.
      */
-    private static GameSettings SETTINGS_LEVEL_1 = new GameSettings(5, 4, 60, 2000, 1, 1, 1);
-    /**
-     * Difficulty settings for level 2.
-     */
-    private static GameSettings SETTINGS_LEVEL_2 = new GameSettings(5, 5, 50, 2500, 1, 1, 1);
-    /**
-     * Difficulty settings for level 3.
-     */
-    private static GameSettings SETTINGS_LEVEL_3 = new GameSettings(6, 5, 40, 1500, 1, 1, 1);
-    /**
-     * Difficulty settings for level 4.
-     */
-    private static GameSettings SETTINGS_LEVEL_4 = new GameSettings(6, 6, 30, 1500, 1, 1, 1);
-    /**
-     * Difficulty settings for level 5.
-     */
-    private static GameSettings SETTINGS_LEVEL_5 = new GameSettings(7, 6, 20, 3900, 1, 1, 1);
-    /**
-     * Difficulty settings for level 6.
-     */
-    private static GameSettings SETTINGS_LEVEL_6 = new GameSettings(7, 7, 10, 3600, 1, 1, 1);
-    /**
-     * Difficulty settings for level 7.
-     */
-
-    private static GameSettings SETTINGS_LEVEL_7 = new GameSettings(8, 7, 2, 3300, 1, 1, 1);
-
-    /**
-     * Difficulty settings for level 8(Boss).
-     */
-    private static GameSettings SETTINGS_LEVEL_8 =
-            new GameSettings(10, 1000,1, 1, 1);
-
+    private static GameSettings SETTINGS_LEVEL_1;
+    private static GameSettings SETTINGS_LEVEL_2;
+    private static GameSettings SETTINGS_LEVEL_3;
+    private static GameSettings SETTINGS_LEVEL_4;
+    private static GameSettings SETTINGS_LEVEL_5;
+    private static GameSettings SETTINGS_LEVEL_6;
+    private static GameSettings SETTINGS_LEVEL_7;
+    private static GameSettings SETTINGS_LEVEL_8;
 
     /**
      * Frame to draw the screen on.
@@ -128,6 +103,37 @@ public final class Core {
     private int returnCode;
     private static final String USER_DATA_FILE = "res/user_data.txt";
 
+    private static void initializeLevelSettings() {
+        int[][] levelSettings = {
+                {5, 4, 60, 2000, 1, 1, 1},
+                {5, 5, 50, 2500, 1, 1, 1},
+                {6, 5, 40, 1500, 1, 1, 1},
+                {6, 6, 30, 1500, 1, 1, 1},
+                {7, 6, 20, 3900, 1, 1, 1},
+                {7, 7, 10, 3600, 1, 1, 1},
+                {8, 7, 2, 3300, 1, 1, 1},
+                {10, 1000, 1, 1, 1, 1, 1}
+        };
+
+        GameSettings[] settingsArray = new GameSettings[levelSettings.length];
+        for (int i = 0; i < levelSettings.length; i++) {
+            int[] setting = levelSettings[i];
+            settingsArray[i] = new GameSettings(setting[0], setting[1], setting[2], setting[3], setting[4], setting[5], setting[6]);
+        }
+
+        SETTINGS_LEVEL_1 = settingsArray[0];
+        SETTINGS_LEVEL_2 = settingsArray[1];
+        SETTINGS_LEVEL_3 = settingsArray[2];
+        SETTINGS_LEVEL_4 = settingsArray[3];
+        SETTINGS_LEVEL_5 = settingsArray[4];
+        SETTINGS_LEVEL_6 = settingsArray[5];
+        SETTINGS_LEVEL_7 = settingsArray[6];
+        SETTINGS_LEVEL_8 = settingsArray[7];
+    }
+
+    static {
+        initializeLevelSettings();
+    }
 
     /**
      * Test implementation.
@@ -212,23 +218,16 @@ public final class Core {
                         if (difficulty == 3)
                             gameState.setHardCore();
                         LOGGER.info("Difficulty : " + difficulty);
-                        SETTINGS_LEVEL_1.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_2.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_3.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_4.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_5.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_6.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_7.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_8.setDifficulty(difficulty);
-                        gameSettings.add(SETTINGS_LEVEL_1);
-                        gameSettings.add(SETTINGS_LEVEL_2);
-                        gameSettings.add(SETTINGS_LEVEL_3);
-                        gameSettings.add(SETTINGS_LEVEL_4);
-                        gameSettings.add(SETTINGS_LEVEL_5);
-                        gameSettings.add(SETTINGS_LEVEL_6);
-                        gameSettings.add(SETTINGS_LEVEL_7);
-                        gameSettings.add(SETTINGS_LEVEL_8);
 
+                        GameSettings[] settingsArray = new GameSettings[] {
+                                SETTINGS_LEVEL_1, SETTINGS_LEVEL_2, SETTINGS_LEVEL_3, SETTINGS_LEVEL_4,
+                                SETTINGS_LEVEL_5, SETTINGS_LEVEL_6, SETTINGS_LEVEL_7, SETTINGS_LEVEL_8
+                        };
+
+                        for (GameSettings settings : settingsArray) {
+                            settings.setDifficulty(difficulty);
+                            gameSettings.add(settings);
+                        }
                     }
 
                     LOGGER.info("select Level"); // Stage(Level) Selection
@@ -521,15 +520,6 @@ public final class Core {
                         returnCode = frame.setScreen(currentScreen);
                         LOGGER.info("Closing subMenu screen.");
                     }
-//                    currentScreen = new StoreScreen(width, height, FPS, gameState, enhanceManager, itemManager);
-//                    enhanceManager = ((StoreScreen) currentScreen).getEnhanceManager();
-//                    gameState = ((StoreScreen)currentScreen).getGameState();
-//
-//                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-//                            + " store screen at " + FPS + " fps.");
-//                    returnCode = frame.setScreen(currentScreen);
-//                    LOGGER.info("Closing subMenu screen.");
-
 
 
                 case 4:
@@ -543,24 +533,18 @@ public final class Core {
                     } else {
                         gameSettings = new ArrayList<GameSettings>();
                         if (difficulty == 3)
-                            gameState_2P.setHardCore();
+                            gameState.setHardCore();
                         LOGGER.info("Difficulty : " + difficulty);
-                        SETTINGS_LEVEL_1.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_2.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_3.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_4.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_5.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_6.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_7.setDifficulty(difficulty);
-                        SETTINGS_LEVEL_8.setDifficulty(difficulty);
-                        gameSettings.add(SETTINGS_LEVEL_1);
-                        gameSettings.add(SETTINGS_LEVEL_2);
-                        gameSettings.add(SETTINGS_LEVEL_3);
-                        gameSettings.add(SETTINGS_LEVEL_4);
-                        gameSettings.add(SETTINGS_LEVEL_5);
-                        gameSettings.add(SETTINGS_LEVEL_6);
-                        gameSettings.add(SETTINGS_LEVEL_7);
-                        gameSettings.add(SETTINGS_LEVEL_8);
+
+                        GameSettings[] settingsArray = new GameSettings[] {
+                                SETTINGS_LEVEL_1, SETTINGS_LEVEL_2, SETTINGS_LEVEL_3, SETTINGS_LEVEL_4,
+                                SETTINGS_LEVEL_5, SETTINGS_LEVEL_6, SETTINGS_LEVEL_7, SETTINGS_LEVEL_8
+                        };
+
+                        for (GameSettings settings : settingsArray) {
+                            settings.setDifficulty(difficulty);
+                            gameSettings.add(settings);
+                        }
                     }
 
                     LOGGER.info("select Level"); // Stage(Level) Selection
